@@ -3,7 +3,7 @@ package com.blah.crud.crudtest;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Rating")
+@Table(name = "rating")
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,4 +32,13 @@ public class Rating {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public long getPropID() {
+        return propID;
+    }
+
+    public void setPropID(long propID) {
+        this.propID = propID;
+    }
+
 }

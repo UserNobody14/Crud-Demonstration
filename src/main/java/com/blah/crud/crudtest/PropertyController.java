@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/properties")
+@RequestMapping("/property")
 public class PropertyController {
 
     private PropertyRepository propertyRepository;
+
+    private RatingRepository ratingRepository;
 
     public PropertyController(PropertyRepository propertyRepository) {
         this.propertyRepository = propertyRepository;
@@ -32,9 +34,16 @@ public class PropertyController {
         return propertyRepository.findAll();
     }
 
+    //Posts a new rating on the property defined by 'id'
+    @PostMapping("/{id}/ratings")
+    public void addRatingToProperty(@PathVariable long id,@RequestBody Rating rating) {
+        rating.setPropID(id);
+        ratingRepository.save(rating);
+    }
+    //Gets all ratings associated with a property.
     @GetMapping("/{id}/ratings")
-    public List<Property> getRatings() {
-        return propertyRepository.findAll();
+    public List<Rating> getRatings(@PathVariable long id) {
+        return ratingRepository.findByPropID(id);
     }
 
     @PutMapping("/{id}")
