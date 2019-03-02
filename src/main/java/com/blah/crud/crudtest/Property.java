@@ -54,5 +54,21 @@ public class Property {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public String getPoolsize() {
+        return poolsize;
+    }
+
+    public void setPoolsize(String poolsize) {
+        this.poolsize = poolsize;
+    }
+
+    public float getAvgrating() {
+        return avgrating;
+    }
+
+    public void setAvgrating(float avgrating) {
+        this.avgrating = avgrating;
+    }
     //All fields available to properties.
 }
