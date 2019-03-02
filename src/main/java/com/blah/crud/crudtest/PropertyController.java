@@ -32,6 +32,11 @@ public class PropertyController {
         return propertyRepository.findAll();
     }
 
+    @GetMapping("/{id}/ratings")
+    public List<Property> getRatings() {
+        return propertyRepository.findAll();
+    }
+
     @PutMapping("/{id}")
     public void editProperty(@PathVariable long id, @RequestBody Property property) {
         Property existingProperty = propertyRepository.findById(id).get();
