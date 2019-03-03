@@ -8,6 +8,7 @@
 
 .idea
 target
+.meghanada
 
 # User-specific stuff
 .idea/**/workspace.xml
