@@ -9,6 +9,7 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long ratingID;
 
+    @Column(name = "propid")
     private long propID;
 
     private long userID;
@@ -16,6 +17,8 @@ public class Rating {
     private int rating;
 
     private String comment;
+
+    protected Rating () {}
 
     public int getRating() {
         return rating;

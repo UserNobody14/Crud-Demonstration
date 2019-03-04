@@ -1,5 +1,7 @@
 package com.blah.crud.crudtest.authuser;
 
+import com.blah.crud.crudtest.persistence.entity.ApplicationUser;
+import com.blah.crud.crudtest.persistence.repository.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -17,18 +19,18 @@ import java.util.List;
 @RequestMapping("/users")
 public class ApplicationUserController {
 
-    @Autowired
+
     private ApplicationUserRepository applicationUserRepository;
 
-    @Autowired
+
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-/*public ApplicationUserController(ApplicationUserRepository applicationUserRepository,
+    public ApplicationUserController(ApplicationUserRepository applicationUserRepository,
                                      BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.applicationUserRepository = applicationUserRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }*/
+    }
 
 
     @PostMapping("/sign-up")

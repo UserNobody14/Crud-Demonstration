@@ -1,5 +1,6 @@
 package com.blah.crud.crudtest.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +18,9 @@ import static com.blah.crud.crudtest.security.SecurityConstants.SIGN_UP_URL;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
+
     private UserDetailsServiceImpl userDetailsService;
+
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -29,8 +32,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //will csrf interact poorly with js? should this be disabled?
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-                .anyRequest().authenticated()
+                .antMatchers(HttpMethod.POST, "/users/sign-up", "/login").permitAll()
+                .antMatchers(HttpMethod.GET, "users/sign-up", "/login").permitAll()
+                .anyRequest().permitAll()//.authenticated() //CHANGE THIS!
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
@@ -38,7 +42,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         //DISABLE THE FIVE ITEMS FOLLOWING IF ERRORS PERSIST!
-
+        /*
         // Exception Handling
         http.exceptionHandling()
 //                .authenticationEntryPoint(forbiddenEntryPoint)
@@ -64,6 +68,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
         // Anonymous
         http.anonymous();
+        */
     }
 
     @Override

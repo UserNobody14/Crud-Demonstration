@@ -1,7 +1,5 @@
 package com.blah.crud.crudtest;
 
-import com.blah.crud.crudtest.authuser.ApplicationUser;
-import com.blah.crud.crudtest.authuser.ApplicationUserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

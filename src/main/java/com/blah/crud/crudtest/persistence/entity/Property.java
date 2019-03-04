@@ -9,7 +9,16 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long propID;
 
-    private long userID;
+    public String getPropName() {
+        return propName;
+    }
+
+    public void setPropName(String propName) {
+        this.propName = propName;
+    }
+
+    //IMPORTANT: name this column.
+    private String propName;
 
     private String address;
 

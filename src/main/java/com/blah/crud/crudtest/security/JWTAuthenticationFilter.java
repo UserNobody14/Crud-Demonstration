@@ -2,7 +2,7 @@ package com.blah.crud.crudtest.security;
 
 
 import com.auth0.jwt.JWT;
-import com.blah.crud.crudtest.authuser.ApplicationUser;
+import com.blah.crud.crudtest.persistence.entity.ApplicationUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
