@@ -74,7 +74,10 @@ public class ACLContext {
 
     @Bean
     public JdbcMutableAclService aclService() {
-        return new JdbcMutableAclService(dataSource, lookupStrategy(), aclCache());
+        JdbcMutableAclService jdbcMutableAclService =  new JdbcMutableAclService(dataSource, lookupStrategy(), aclCache());
+        jdbcMutableAclService.setClassIdentityQuery( "SELECT @@IDENTITY" );
+        jdbcMutableAclService.setSidIdentityQuery( "SELECT @@IDENTITY" );
+        return jdbcMutableAclService;
     }
 
 }

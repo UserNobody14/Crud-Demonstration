@@ -2,6 +2,7 @@ package com.blah.crud.crudtest.authuser;
 
 import com.blah.crud.crudtest.persistence.entity.ApplicationUser;
 import com.blah.crud.crudtest.persistence.repository.ApplicationUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +17,7 @@ import static java.util.Collections.emptyList;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    //@Autowired
+    @Autowired
     private ApplicationUserRepository applicationUserRepository;
 
     /*public UserDetailsServiceImpl(ApplicationUserRepository applicationUserRepository) {
@@ -33,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (applicationUser == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new User(applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
+        return new User(applicationUser.getUsername(), applicationUser.getPassword(), applicationUser.getAuthorities());
     }
     /*
     public void addPermission(long objectId, Sid recipient, Permission permission, Class clazz) {

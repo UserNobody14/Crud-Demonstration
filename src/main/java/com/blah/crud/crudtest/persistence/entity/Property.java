@@ -5,6 +5,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Property")
 public class Property {
+    public void setPropID(long propID) {
+        this.propID = propID;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long propID;
@@ -32,8 +36,13 @@ public class Property {
 
     protected Property () {}
 
-    public Property (String description) {
+    public Property (String description, String propName, String address, String poolsize, int price, float avgrating) {
+        this.propName = propName;
         this.description = description;
+        this.address = address;
+        this.poolsize = poolsize;
+        this.price = price;
+        this.avgrating = avgrating;
     }
 
     public long getPropID() {

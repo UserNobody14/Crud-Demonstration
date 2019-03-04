@@ -9,6 +9,12 @@ import javax.persistence.*;
 @Table(name = "USER_AUTHORITIES")
 public class Authority implements GrantedAuthority {
 
+    protected Authority() {}
+
+    public Authority(String name) {
+        this.setName(name);
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

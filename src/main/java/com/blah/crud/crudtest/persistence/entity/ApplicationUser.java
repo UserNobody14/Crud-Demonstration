@@ -5,11 +5,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "application_user")
 public class ApplicationUser implements UserDetails, Serializable {
+
+  protected ApplicationUser() {}
+
+  public ApplicationUser(String username, String password, String authority) {
+    this.setUsername(username);
+    this.setAuthorities(authority);
+    this.setPassword(password);
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "ID")
@@ -26,11 +38,14 @@ public class ApplicationUser implements UserDetails, Serializable {
   @Column(name = "PASSWORD")
   private String password;
 
+  /*
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "USERS_AUTHORITIES", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID"))
   @OrderBy
   @JsonIgnore
-  private Collection<Authority> authorities;
+  */
+  @Column(name = "AUTHORITY")
+  private String authorities;
 
   @Column(name = "ACCOUNT_EXPIRED")
   private boolean accountExpired;
@@ -82,10 +97,11 @@ public class ApplicationUser implements UserDetails, Serializable {
 
   @Override
   public Collection<Authority> getAuthorities() {
-    return authorities;
+    Authority[] authArray = new Authority[] {new Authority(authorities)};
+    return Arrays.asList(authArray);
   }
 
-  public void setAuthorities(Collection<Authority> authorities) {
+  public void setAuthorities(String authorities) {
     this.authorities = authorities;
   }
 
