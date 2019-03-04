@@ -1,4 +1,4 @@
-package com.blah.crud.crudtest;
+package com.blah.crud.crudtest.persistence.entity;
 
 import javax.persistence.*;
 

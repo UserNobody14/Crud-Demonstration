@@ -27,6 +27,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     //This allows different resources to be private or public: IMPORTANT!
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //will csrf interact poorly with js? should this be disabled?
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .anyRequest().authenticated()
@@ -35,6 +36,34 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        //DISABLE THE FIVE ITEMS FOLLOWING IF ERRORS PERSIST!
+
+        // Exception Handling
+        http.exceptionHandling()
+//                .authenticationEntryPoint(forbiddenEntryPoint)
+                .accessDeniedPage("/errors/403"); //create access denied point?
+
+        http.formLogin()
+                .loginPage("/login/form")
+                .loginProcessingUrl("/login")
+                .failureUrl("/login/form?error")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/default", true)
+                .permitAll();
+
+        // Logout
+        http.logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login/form?logout").deleteCookies("JSESSIONID").invalidateHttpSession(true)
+                .permitAll();
+
+        // remember me configuration
+        http.rememberMe().key("crudtest"); //.rememberMeParameter("_spring_security_remember_me");
+
+        // Anonymous
+        http.anonymous();
     }
 
     @Override

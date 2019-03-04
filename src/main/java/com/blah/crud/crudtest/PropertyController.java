@@ -1,5 +1,9 @@
 package com.blah.crud.crudtest;
 
+import com.blah.crud.crudtest.persistence.entity.Property;
+import com.blah.crud.crudtest.persistence.entity.Rating;
+import com.blah.crud.crudtest.persistence.repository.PropertyRepository;
+import com.blah.crud.crudtest.persistence.repository.RatingRepository;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

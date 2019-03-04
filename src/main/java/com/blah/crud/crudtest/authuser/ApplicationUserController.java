@@ -1,5 +1,6 @@
 package com.blah.crud.crudtest.authuser;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,15 +17,19 @@ import java.util.List;
 @RequestMapping("/users")
 public class ApplicationUserController {
 
+    @Autowired
     private ApplicationUserRepository applicationUserRepository;
 
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public ApplicationUserController(ApplicationUserRepository applicationUserRepository,
+
+/*public ApplicationUserController(ApplicationUserRepository applicationUserRepository,
                                      BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.applicationUserRepository = applicationUserRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
+    }*/
+
 
     @PostMapping("/sign-up")
     public void signUp(@RequestBody ApplicationUser user) {
@@ -37,7 +42,8 @@ public class ApplicationUserController {
         return applicationUserRepository.findAll();
     }
 
-    /*@PutMapping("/{id}")
+
+/*@PutMapping("/{id}")
     public void editUser(@PathVariable long id, @RequestBody ApplicationUser user) {
         ApplicationUser existingUser = applicationUserRepository.findById(id).get();
         Assert.notNull(existingUser, "ApplicationUser not found");
@@ -46,9 +52,11 @@ public class ApplicationUserController {
         applicationUserRepository.save(existingUser);
     }*/
 
+
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable long id) {
         ApplicationUser applicationUserToDel = applicationUserRepository.findById(id).get();
         applicationUserRepository.delete(applicationUserToDel);
     }
 }
+
