@@ -9,6 +9,8 @@
 .idea
 target
 .meghanada
+node_modules
+build
 
 # User-specific stuff
 .idea/**/workspace.xml
