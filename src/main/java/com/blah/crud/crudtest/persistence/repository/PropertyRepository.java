@@ -10,9 +10,10 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @PreAuthorize("jasPermission(#property, 'WRITE')")
     void delete(@Param("property") Property property);
+
     //find out how to make it work by
-    @PreAuthorize("jasPermission(#id, 'WRITE')")
-    void delete(@Param("id") long id);
+//    @PreAuthorize("jasPermission(#id, 'WRITE')")
+//    void delete(@Param("id") long id);
 
     //@PreAuthorize("hasPermission(#property, 'READ'")
     Property save(@Param("property") Property property);

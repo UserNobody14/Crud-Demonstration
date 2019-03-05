@@ -5,6 +5,8 @@ import com.blah.crud.crudtest.persistence.entity.Property;
 import com.blah.crud.crudtest.persistence.entity.Rating;
 import com.blah.crud.crudtest.persistence.repository.PropertyRepository;
 import com.blah.crud.crudtest.persistence.repository.RatingRepository;
+import com.blah.crud.crudtest.services.PropertyServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
@@ -28,12 +30,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/property")
+@RequestMapping("/properties")
 public class PropertyController {
+    @Autowired
+    private PropertyServiceImpl propertyService;
 
     private PropertyRepository propertyRepository;
 
     private RatingRepository ratingRepository;
+
+    //Idea: export RatingRepository, proprepos & jdbcmutable to 'propertyServiceImpl'
+    //That way all the utilities & background stuff won't clutter the controller.
 
     private JdbcMutableAclService aclService;
 
@@ -49,10 +56,12 @@ public class PropertyController {
     @PostMapping
     public void addProperty(@RequestBody Property property) {
         Assert.notNull(property, "Didn't return a property");
-        propertyRepository.save(property);
+        propertyRepository.save(property);//remove this one.
+        propertyService.create(property);
+        /*
         //existing code to add new permussions for something.
 
-        //****************************************************************//
+        ///////////////////////////////////////////////////////////////////////
         //This is the acl boilerplate code:: it creates a new permission for the owner
         //if (propertyRepository. == null) {
             Property existingProperty = propertyRepository.findByPropName(property.getPropName());
@@ -63,7 +72,7 @@ public class PropertyController {
 //        }
         //TODO: write a class or service that does these automatically.
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentUser = ((String) auth.getPrincipal());
+        String currentUser = ((String) auth.getName());
         //otherstuff
         //log it?
         System.out.println("CURR_USER: " + currentUser);
@@ -81,6 +90,7 @@ public class PropertyController {
         // Now grant some permissions via an access control entry (ACE)
         acl.insertAce(acl.getEntries().size(), p, sid, true);
         aclService.updateAcl(acl);
+        */
 
     }
 

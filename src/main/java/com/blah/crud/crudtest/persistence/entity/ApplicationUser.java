@@ -5,10 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "application_user")
@@ -97,8 +94,7 @@ public class ApplicationUser implements UserDetails, Serializable {
 
   @Override
   public Collection<Authority> getAuthorities() {
-    Authority[] authArray = new Authority[] {new Authority(authorities)};
-    return Arrays.asList(authArray);
+    return Collections.singletonList(new Authority(authorities));
   }
 
   public void setAuthorities(String authorities) {
