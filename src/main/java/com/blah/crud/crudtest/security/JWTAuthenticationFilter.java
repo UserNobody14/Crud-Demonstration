@@ -3,6 +3,7 @@ package com.blah.crud.crudtest.security;
 
 import com.auth0.jwt.JWT;
 import com.blah.crud.crudtest.persistence.entity.ApplicationUser;
+import com.blah.crud.crudtest.persistence.entity.Authority;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.lang.System;
 
@@ -27,6 +29,7 @@ import static com.blah.crud.crudtest.security.SecurityConstants.SECRET;
 import static com.blah.crud.crudtest.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
     private AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -44,7 +47,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     new UsernamePasswordAuthenticationToken(
                             creds.getUsername(),
                             creds.getPassword(),
-                            creds.getAuthorities())
+                            Collections.singletonList(new Authority(creds.getAuthorityr())))
             );
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -58,7 +61,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication auth) throws IOException, ServletException {
 
         String token = JWT.create()
-                .withSubject(((User) auth.getPrincipal()).getUsername())
+                .withSubject(((ApplicationUser) auth.getPrincipal()).getUsername())
+                .withClaim("authorityr", ((ApplicationUser) auth.getPrincipal()).getAuthorityr())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);

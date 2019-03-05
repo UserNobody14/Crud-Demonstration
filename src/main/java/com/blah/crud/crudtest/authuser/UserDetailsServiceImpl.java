@@ -34,7 +34,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (applicationUser == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new User(applicationUser.getUsername(), applicationUser.getPassword(), applicationUser.getAuthorities());
+        return applicationUser;
+        //return new ApplicationUser(applicationUser.getUsername(), applicationUser.getPassword(), applicationUser.getAuthorityr());
     }
     /*
     public void addPermission(long objectId, Sid recipient, Permission permission, Class clazz) {

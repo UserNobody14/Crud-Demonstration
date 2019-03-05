@@ -46,17 +46,19 @@ public class PropertyController {
 
     public PropertyController(PropertyRepository propertyRepository,
                               RatingRepository ratingRepository,
-                              JdbcMutableAclService aclService) {
+                              JdbcMutableAclService aclService,
+                              PropertyServiceImpl propertyService) {
         this.propertyRepository = propertyRepository;
         this.ratingRepository = ratingRepository;
         this.aclService = aclService;
+        this.propertyService = propertyService;
     }
 
     @Transactional
     @PostMapping
     public void addProperty(@RequestBody Property property) {
         Assert.notNull(property, "Didn't return a property");
-        propertyRepository.save(property);//remove this one.
+        //propertyRepository.save(property);//remove this one.
         propertyService.create(property);
         /*
         //existing code to add new permussions for something.

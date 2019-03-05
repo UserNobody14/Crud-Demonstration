@@ -4,6 +4,7 @@ import com.blah.crud.crudtest.persistence.entity.Property;
 import com.blah.crud.crudtest.persistence.repository.PropertyRepository;
 import com.blah.crud.crudtest.persistence.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
@@ -30,10 +31,12 @@ public class PropertyServiceImpl implements PropertyService {
         return null;
     }
 
+    @PreAuthorize("hasRole('HOST')")
     @Override
     public void create(Property property) {
         ///////////////////////////////////////////////////////////////////////
         //This is the acl boilerplate code:: it creates a new permission for the owner
+        propertyRepository.save(property);
         //if (propertyRepository. == null) {
         Property existingProperty = propertyRepository.findByPropName(property.getPropName());
         ObjectIdentity oi = new ObjectIdentityImpl(Property.class, existingProperty.getPropID());
@@ -64,12 +67,18 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public void delete(Property property) {
-
+    public void delete(Property property, long id) {
+        propertyRepository.deleteById(id);
     }
 
     @Override
-    public Property update(Property property) {
-        return null;
+    public Property update(Property p, long id) {
+        Property existingProperty = propertyRepository.findById(id).get();
+        existingProperty.setPropID(p.getPropID());
+        existingProperty.setAddress(p.getAddress());
+        existingProperty.setDescription(p.getDescription());
+        existingProperty.setPoolsize(p.getPoolsize());
+        existingProperty.setPropName(p.getPropName());
+        return propertyRepository.save(existingProperty);
     }
 }

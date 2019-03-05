@@ -44,6 +44,8 @@ public class ApplicationUser implements UserDetails, Serializable {
   @Column(name = "AUTHORITY")
   private String authorities;
 
+  private String authorityr;
+
   @Column(name = "ACCOUNT_EXPIRED")
   private boolean accountExpired;
 
@@ -132,5 +134,13 @@ public class ApplicationUser implements UserDetails, Serializable {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public String getAuthorityr() {
+    return authorityr;
+  }
+
+  public void setAuthorityr(String authorityr) {
+    this.authorityr = authorityr;
   }
 }
