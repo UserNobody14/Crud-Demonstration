@@ -17,6 +17,7 @@ public class ApplicationUser implements UserDetails, Serializable {
     this.setUsername(username);
     this.setAuthorities(authority);
     this.setPassword(password);
+    this.setAuthorityr(authority);
   }
 
   @Id
@@ -96,7 +97,9 @@ public class ApplicationUser implements UserDetails, Serializable {
 
   @Override
   public Collection<Authority> getAuthorities() {
-    return Collections.singletonList(new Authority(authorities));
+    ArrayList<Authority> arr = new ArrayList<Authority>();
+    arr.addAll(Collections.singletonList(new Authority(authorities)));
+    return arr;
   }
 
   public void setAuthorities(String authorities) {

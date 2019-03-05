@@ -31,6 +31,7 @@ public class DataInitializeAndTest implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+        //todo: try making a test of propertyServiceImpl, setting some of these guys as owners?
         Stream.of("EasyBeds", "Good Times", "FunPoolStay", "At the park",
                 "Budweiser", "Coors Light", "PBR").forEach(name ->
                 propertyRepository.save(new Property(name, name, name, name, name.length(), (float) 0.0))
@@ -42,6 +43,11 @@ public class DataInitializeAndTest implements CommandLineRunner {
                 userRepository.save(new ApplicationUser(name, bCryptPasswordEncoder.encode("pass"), "ROLE_HOST"))
         );
         userRepository.findAll().forEach(System.out::println);
+
+        Stream.of("timmie", "kate", "Lemmy", "kilmeister",
+                "morrow", "don", "cob").forEach(name ->
+                userRepository.save(new ApplicationUser(name, bCryptPasswordEncoder.encode("pass"), "ROLE_GUEST"))
+        );
     }
 
 

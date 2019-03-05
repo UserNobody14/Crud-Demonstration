@@ -52,7 +52,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             // parse the token.
 
             //verifying the roles at this level maybe a bad idea? Perhaps find a better way.
-            String host = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
+            /*String host = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
                     .withClaim("authorities", "ROLE_HOST")
                     .build()
                     .verify(token.replace(TOKEN_PREFIX, ""))
@@ -61,24 +61,24 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .withClaim("authorities", "ROLE_GUEST")
                     .build()
                     .verify(token.replace(TOKEN_PREFIX, ""))
-                    .getSubject();
+                    .getSubject();*/
             String general = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
                     //.withClaim("authorities", "ROLE_GUEST")
                     .build()
                     .verify(token.replace(TOKEN_PREFIX, ""))
                     .getSubject();
 
-            if (host != null && guest == null) {
+            /*if (host != null && guest == null) {
                 return new UsernamePasswordAuthenticationToken(host, null,
                         Collections.singletonList(new Authority("ROLE_HOST")));
             }
             else if (guest != null && host ==null) {
                 return new UsernamePasswordAuthenticationToken(guest, null,
                         Collections.singletonList(new Authority("ROLE_GUEST")));
-            }
-            else if (general != null) {
+            }*/
+            if (general != null) {
                 return new UsernamePasswordAuthenticationToken(general, null,
-                        Collections.EMPTY_LIST);
+                        new ArrayList<>());
             }
             return null;
         }
