@@ -4,6 +4,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const client = require('./client');
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 // import LoginForm from './LoginForm.jsx';
 // import injectTapEventPlugin from 'react-tap-event-plugin';
 // import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -17,6 +18,15 @@ import Auth from './Auth';
 // end::vars[]
 // tag::app[]
 //const xhrSend = function
+const checkStatus = function (response) {
+		  if (response.status >= 200 && response.status < 300) {
+		    return response
+		  } else {
+		    var error = new Error(response.statusText)
+		    error.response = response
+		    throw error
+		  }
+		}
 class App extends React.Component {
 
 	constructor(props) {
@@ -42,7 +52,8 @@ class App extends React.Component {
 class PropertyList extends React.Component{
 	render() {
 		const properties = this.props.properties.map(property =>
-			<Property key={property._links.self.href} property={property}/>
+			<Property key={property._links.self.href} property={property}
+			backlink={Number(property._links.self.href.replace("http://localhost:8080/api/properties/", ""))}/>
 		);//Replace these with a reactstrap version.
 		return (
 			<table>
@@ -52,6 +63,8 @@ class PropertyList extends React.Component{
 						<th>Address</th>
 						<th>Poolsize</th>
             <th>Average Rating</th>
+						<th>backlinked Id</th>
+						<th>create rating</th>
 					</tr>
 					{properties}
 				</tbody>
@@ -63,6 +76,41 @@ class PropertyList extends React.Component{
 
 // tag::property[]
 class Property extends React.Component{
+	constructor(props) {
+		super(props);
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.state = {rating: 0};
+	}
+	handleChange(event) {
+		const name = event.target.name;
+		const value = event.target.value;
+		this.setState({[name]: value});
+	}
+	handleSubmit(event) {
+		//allows a user to post ratings.
+		//Make this a separate block from
+		console.log("gotten this far.")
+		console.log(this.props.backlink);
+		fetch(this.props.backlink + '/ratings', {
+		  					method: 'POST',
+		  					headers: {'Content-Type': 'application/json',
+													'Authorization': Auth.getToken()},
+		  body: JSON.stringify({
+				propID: this.props.backlink,
+		    rating: 3,
+		    comment: event.target.value
+		  })
+		}).then(checkStatus)
+			.then(response => response.headers,get('Authorization'))
+			.then(d => authentify(d))
+			.then(function(data) {
+					alert('A name was submitted: ' + this.state.username + ' ' + data);
+    			console.log('request succeeded with JSON response', data);
+  		}).catch(function(error) {
+    			console.log('request failed', error)
+  		})
+	}
 	render() {
 		return (
 			<tr>
@@ -70,6 +118,15 @@ class Property extends React.Component{
 				<td>{this.props.property.address}</td>
 				<td>{this.props.property.poolsize}</td>
 				<td>{this.props.property.avgrating}</td>
+				<td>{this.props.backlink}</td>
+				<td>
+				<form onSubmit={this.handleSubmit}>
+        <label>
+          Rate your stay:
+          <input type="text" value={this.state.rating} name="rating" onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form></td>
 			</tr>
 		)
 	}
@@ -102,15 +159,7 @@ class NameForm extends React.Component {
     const formData = `username=${username}&password=${password}`;
 		const altData = JSON.stringify({username: username, password: password});
 		/////////////////////////////////////////////////////////
-		function checkStatus(response) {
-		  if (response.status >= 200 && response.status < 300) {
-		    return response
-		  } else {
-		    var error = new Error(response.statusText)
-		    error.response = response
-		    throw error
-		  }
-		}
+
 		function authentify(authorization) {
 			Auth.authenticateUser(authorization);
 			return authorization;
@@ -123,14 +172,15 @@ class NameForm extends React.Component {
 		    password: this.state.password,
 		  })
 		}).then(checkStatus)
-			.then(response => response.headers,get('Authorization'))
+			.then(response => response.headers.get('Authorization'))
 			.then(d => authentify(d))
 			.then(function(data) {
-    			console.log('request succeeded with JSON response', data)
+					alert('A name was submitted: ' + this.state.username + ' ' + data);
+    			console.log('request succeeded with JSON response', data);
   		}).catch(function(error) {
     			console.log('request failed', error)
   		})
-		alert('A name was submitted: ' + this.state.username + ' ' + this.state.password);
+			//TODO: it should update the page.
   }
 
   render() {

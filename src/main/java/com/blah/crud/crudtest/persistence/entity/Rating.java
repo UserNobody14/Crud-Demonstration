@@ -12,8 +12,6 @@ public class Rating {
     @Column(name = "propid")
     private long propID;
 
-    private long userID;
-
     private int rating;
 
     private String comment;
