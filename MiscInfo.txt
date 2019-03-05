@@ -1,0 +1,42 @@
+HTTP/1.1 200 
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Content-Type: application/hal+json;charset=UTF-8
+Date: Tue, 05 Mar 2019 07:04:42 GMT
+Expires: 0
+Pragma: no-cache
+Transfer-Encoding: chunked
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+///////////////////////////////////////////////////////////////via login
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2IiLCJleHAiOjE1NTI1NjEzMTZ9.9VVha6Gl756zoqUXYBrzdMGSpSej-OM6D_ijNEKFuk2n_fBgs0SYL5vBtG9Fk0b-LO_kaUWzbEa5VZyorW4ejw
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 0
+Date: Mon, 04 Mar 2019 11:01:56 GMT
+//////////////////////////////////////////////////////////////workin' login
+curl -i -H "Content-Type: application/json" -X POST -d '{
+"username": "rob",
+"password": "pass"
+}' http://localhost:8080/login
+
+curl -i -H "Content-Type: application/json" -X POST -d '{
+"username": "rob",
+"password": "pass"
+}' http://localhost:8080/api/login
+//////////////////////////////////////
+curl -H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2IiLCJleHAiOjE1NTI1NjEzMTZ9.9VVha6Gl756zoqUXYBrzdMGSpSej-OM6D_ijNEKFuk2n_fBgs0SYL5vBtG9Fk0b-LO_kaUWzbEa5VZyorW4ejw" \
+-X POST -d '{
+    "description": "Buy watermelon",
+	"address": "buy",
+"propName": "e",
+"avg_rating": 0.0,
+"price": 3,
+"poolsize": "bid"
+}'  http://localhost:8080/property
+

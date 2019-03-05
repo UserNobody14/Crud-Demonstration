@@ -11,6 +11,7 @@ target
 .meghanada
 node_modules
 build
+src/main/resources/static/built
 
 # User-specific stuff
 .idea/**/workspace.xml
