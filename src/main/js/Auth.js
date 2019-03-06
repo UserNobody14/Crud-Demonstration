@@ -1,5 +1,10 @@
 class Auth {
 
+  static authenticateThrough(token) {
+    localStorage.setItem('token', token);
+    return localStorage.getItem('token');
+  }
+
   /**
    * Authenticate a user. Save a token string in Local Storage
    *

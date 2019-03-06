@@ -4,7 +4,8 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const client = require('./client');
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+const RatingDropdown = require('./RatingDropdown.jsx');
+import { Button, Form, FormGroup, Label, Input} from 'reactstrap';
 // import LoginForm from './LoginForm.jsx';
 // import injectTapEventPlugin from 'react-tap-event-plugin';
 // import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -56,6 +57,10 @@ class PropertyList extends React.Component{
 			backlink={Number(property._links.self.href.replace("http://localhost:8080/api/properties/", ""))}/>
 		);//Replace these with a reactstrap version.?
 		return (
+			// <div>
+			// {properties}
+			// </div>
+			<div>
 			<table>
 				<tbody>
 					<tr>
@@ -69,6 +74,7 @@ class PropertyList extends React.Component{
 					{properties}
 				</tbody>
 			</table>
+			</div>
 		)
 	}
 }
@@ -88,6 +94,7 @@ class Property extends React.Component{
 		this.setState({[name]: value});
 	}
 	handleSubmit(event) {
+		event.preventDefault();
 		//allows a user to post ratings.
 		//Make this a separate block from
 		console.log("gotten this far.")
@@ -96,7 +103,7 @@ class Property extends React.Component{
 			return authorization;
 		}
 		console.log(this.props.backlink);
-		fetch('/api/properties/' + this.props.backlink + '/ratings', {
+		fetch('/properties/' + this.props.backlink + '/ratings', {
 		  					method: 'POST',
 		  					headers: {'Content-Type': 'application/json',
 													'Authorization': Auth.getToken()},
@@ -109,14 +116,29 @@ class Property extends React.Component{
 			//.then(response => response.headers,get('Authorization'))
 			//.then(d => authentify(d))
 			.then(function(data) {
-					alert('A rating was submitted: ' + data);
-    			console.log('request succeeded with JSON response', data);
+					alert('A rating was submitted: ' + data.json());
+    			console.log('request succeeded with JSON response', data.json());
   		}).catch(function(error) {
     			console.log('request failed', error)
   		})
 	}
 	render() {
+		const properlink = this.props.backlink;
 		return (
+			//maybe instead of rows & columns just have a bunch of divs.
+			/*
+					<div>
+						<div>
+							<span>{this.props.property.propName}</span>
+							<span>{this.props.property.address}</span>
+							<span>{this.props.property.poolsize}</span>
+							<span>{this.props.property.avgrating}</span>
+						</div>
+						<div>
+							<RatingDropdown backlink={properlink}/>
+						</div>
+					</div>
+					*/
 			<tr>
 				<td>{this.props.property.propName}</td>
 				<td>{this.props.property.address}</td>
@@ -131,10 +153,12 @@ class Property extends React.Component{
         </label>
         <input type="submit" value="Submit" />
       </form></td>
+
 			</tr>
 		)
 	}
 }
+
 // end::property[]
 class NameForm extends React.Component {
   constructor(props) {
@@ -179,7 +203,7 @@ class NameForm extends React.Component {
 			.then(response => response.headers.get('Authorization'))
 			.then(d => authentify(d))
 			.then(function(data) {
-					alert('A name was submitted: ' + username + ' ' + data);
+					alert('A name was submitted: ' + username + '\nThis is the json web token: ' + data);
     			console.log('request succeeded with JSON response', data);
   		}).catch(function(error) {
     			console.log('request failed', error)
