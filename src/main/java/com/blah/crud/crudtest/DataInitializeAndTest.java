@@ -2,6 +2,7 @@ package com.blah.crud.crudtest;
 
 import com.blah.crud.crudtest.persistence.entity.ApplicationUser;
 import com.blah.crud.crudtest.persistence.entity.Property;
+import com.blah.crud.crudtest.persistence.entity.Rating;
 import com.blah.crud.crudtest.persistence.repository.ApplicationUserRepository;
 import com.blah.crud.crudtest.persistence.repository.PropertyRepository;
 import com.blah.crud.crudtest.persistence.repository.RatingRepository;
@@ -48,6 +49,13 @@ public class DataInitializeAndTest implements CommandLineRunner {
                 "morrow", "don", "cob").forEach(name ->
                 userRepository.save(new ApplicationUser(name, bCryptPasswordEncoder.encode("pass"), "ROLE_GUEST"))
         );
+        Property toComment = propertyRepository.findByPropName("PBR");
+        long idTocomment = toComment.getPropID();
+        Stream.of("EasyBeds", "Good Times", "FunPoolStay", "At the park",
+                "Budweiser", "Coors Light", "PBR").forEach(name ->
+                ratingRepository.save(new Rating(name, 3, idTocomment))
+        );
+
     }
 
 

@@ -54,7 +54,7 @@ class PropertyList extends React.Component{
 		const properties = this.props.properties.map(property =>
 			<Property key={property._links.self.href} property={property}
 			backlink={Number(property._links.self.href.replace("http://localhost:8080/api/properties/", ""))}/>
-		);//Replace these with a reactstrap version.
+		);//Replace these with a reactstrap version.?
 		return (
 			<table>
 				<tbody>
@@ -91,8 +91,12 @@ class Property extends React.Component{
 		//allows a user to post ratings.
 		//Make this a separate block from
 		console.log("gotten this far.")
+		function authentify(authorization) {
+			Auth.authenticateUser(authorization);
+			return authorization;
+		}
 		console.log(this.props.backlink);
-		fetch(this.props.backlink + '/ratings', {
+		fetch('/api/properties/' + this.props.backlink + '/ratings', {
 		  					method: 'POST',
 		  					headers: {'Content-Type': 'application/json',
 													'Authorization': Auth.getToken()},
@@ -102,10 +106,10 @@ class Property extends React.Component{
 		    comment: event.target.value
 		  })
 		}).then(checkStatus)
-			.then(response => response.headers,get('Authorization'))
-			.then(d => authentify(d))
+			//.then(response => response.headers,get('Authorization'))
+			//.then(d => authentify(d))
 			.then(function(data) {
-					alert('A name was submitted: ' + this.state.username + ' ' + data);
+					alert('A rating was submitted: ' + data);
     			console.log('request succeeded with JSON response', data);
   		}).catch(function(error) {
     			console.log('request failed', error)
@@ -175,7 +179,7 @@ class NameForm extends React.Component {
 			.then(response => response.headers.get('Authorization'))
 			.then(d => authentify(d))
 			.then(function(data) {
-					alert('A name was submitted: ' + this.state.username + ' ' + data);
+					alert('A name was submitted: ' + username + ' ' + data);
     			console.log('request succeeded with JSON response', data);
   		}).catch(function(error) {
     			console.log('request failed', error)

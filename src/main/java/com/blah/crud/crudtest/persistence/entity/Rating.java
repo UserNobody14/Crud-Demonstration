@@ -18,6 +18,12 @@ public class Rating {
 
     protected Rating () {}
 
+    public Rating(String comment, int rating, long propID) {
+        this.rating = rating;
+        this.comment = comment;
+        this.propID = propID;
+    }
+
     public int getRating() {
         return rating;
     }
