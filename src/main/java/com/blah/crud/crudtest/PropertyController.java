@@ -102,6 +102,7 @@ public class PropertyController {
     }
 
     //Posts a new rating on the property defined by 'id'
+    @PreAuthorize("hasRole('GUEST')")
     @PostMapping("/{id}/ratings")
     public void addRatingToProperty(@PathVariable long id,@RequestBody Rating rating) {
         rating.setPropID(id);
@@ -113,6 +114,8 @@ public class PropertyController {
         return ratingRepository.findBypropID(id);
     }
 
+    @Transactional
+    @PreAuthorize("hasRole('HOST')")
     @PutMapping("/{id}")
     public void editProperty(@PathVariable long id, @RequestBody Property property) {
         property.setPropID(id);
@@ -122,9 +125,10 @@ public class PropertyController {
         //TODO: find all fields available in property and set them in the existing (database) property.
         existingProperty.setDescription(property.getDescription());
         propertyRepository.save(existingProperty);
-
-
     }
+
+    @Transactional
+    @PreAuthorize("hasRole('HOST')")
     @DeleteMapping("/{id}")
     public void deleteProperty(@PathVariable long id) {
         Property propertyToDel = propertyRepository.findById(id).get();

@@ -4,6 +4,7 @@ import com.blah.crud.crudtest.persistence.entity.Property;
 import com.blah.crud.crudtest.persistence.repository.PropertyRepository;
 import com.blah.crud.crudtest.persistence.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
@@ -26,6 +27,16 @@ public class PropertyServiceImpl implements PropertyService {
     @Autowired
     private PropertyRepository propertyRepository;
 
+    //public PropertyServiceImpl() {}
+
+    public PropertyServiceImpl(JdbcMutableAclService jdbcMutableAclService,
+                               RatingRepository ratingRepository,
+                               PropertyRepository propertyRepository) {
+        this.propertyRepository = propertyRepository;
+        this.jdbcMutableAclService = jdbcMutableAclService;
+        this.ratingRepository = ratingRepository;
+    }
+
     @Override
     public Property get(long id) {
         return null;
@@ -33,7 +44,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @PreAuthorize("hasRole('HOST')")
     @Override
-    public void create(Property property) {
+    public void create(@Param("property") Property property) {
         ///////////////////////////////////////////////////////////////////////
         //This is the acl boilerplate code:: it creates a new permission for the owner
         propertyRepository.save(property);
@@ -66,11 +77,13 @@ public class PropertyServiceImpl implements PropertyService {
         jdbcMutableAclService.updateAcl(acl);
     }
 
+    @PreAuthorize("hasRole('HOST') and hasPermission(#property, 'WRITE'")
     @Override
     public void delete(Property property, long id) {
         propertyRepository.deleteById(id);
     }
 
+    @PreAuthorize("hasRole('HOST') and hasPermission(#property, 'WRITE'")
     @Override
     public Property update(Property p, long id) {
         Property existingProperty = propertyRepository.findById(id).get();

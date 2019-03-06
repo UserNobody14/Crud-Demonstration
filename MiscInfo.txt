@@ -39,4 +39,26 @@ curl -H "Content-Type: application/json" \
 "price": 3,
 "poolsize": "bid"
 }'  http://localhost:8080/property
+///////////////////////////////////////////////
+curl -H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2IiLCJleHAiOjE1NTI1NjEzMTZ9.9VVha6Gl756zoqUXYBrzdMGSpSej-OM6D_ijNEKFuk2n_fBgs0SYL5vBtG9Fk0b-LO_kaUWzbEa5VZyorW4ejw" \
+-X POST -d '{
+    "propID": 526,
+	"comment": "buy",
+"rating": 5
+}'  http://localhost:8080/properties/526/ratings
+
+
+fetch('/api/properties/' + '526' + '/ratings', 
+{ method: 'POST', headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2IiLCJleHAiOjE1NTI3Mzc5Mzd9.wFaINa2GtT0rOfwpp79gh4XDTcn_8pz_gs9xCq8VAW0MsegQBmw3IJA_anuYQluUlAaBgJUUsvkB-Hxg2iU9A'} body: JSON.stringify({ propID: 526, rating: 4, comment: "bad" }) }) .then(function(data) { alert('A rating was submitted: ' + data.json()); console.log('request succeeded with JSON response', data.json); }).catch(function(error) { console.log('request failed', error) })
+
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2IiLCJleHAiOjE1NTI3NDAzMjB9.L5WprmalqKvwPHO3kh7j73dU4WwK5pcKlniMmaV3mvvh7V16JCrmDqDt_8rKHMO0-fmFMqw1s1fhbEtLcl9jAw
+
+................
+curl -H "Content-Type: application/json" -H "authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2IiLCJleHAiOjE1NTI1NjEzMTZ9.9VVha6Gl756zoqUXYBrzdMGSpSej-OM6D_ijNEKFuk2n_fBgs0SYL5vBtG9Fk0b-LO_kaUWzbEa5VZyorW4ejw" -X POST -d '{
+    "propID": 526,
+"comment": "buy",
+"rating": 5
+}'  http://localhost:8080/properties/526/ratings
+
 
