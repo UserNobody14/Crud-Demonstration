@@ -87,7 +87,7 @@ class Property extends React.Component{
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.state = {rating: 0};
+		this.state = {rating: 0, comment: "no commment"};
 	}
 	handleChange(event) {
 		const name = event.target.name;
@@ -110,7 +110,7 @@ class Property extends React.Component{
 													'Authorization': Auth.getToken()},
 		  body: JSON.stringify({
 				propID: this.props.backlink,
-		    rating: 3,
+		    rating: Number(this.state.rating),
 		    comment: this.state.comment
 		  })
 		}).then(checkStatus)
@@ -155,10 +155,10 @@ class Property extends React.Component{
 					<label>
           		Pick your favorite flavor:
           	<select value={this.state.rating} onChange={this.handleChange}>
-            	<option value=1>Grapefruit</option>
-            	<option value=2>Lime</option>
-            	<option value=3>Coconut</option>
-            	<option value=4>Mango</option>
+            	<option value="1">Grapefruit</option>
+            	<option value="2">Lime</option>
+            	<option value="3">Coconut</option>
+            	<option value="4">Mango</option>
           	</select>
         	</label>
         	<input type="submit" value="Submit" />

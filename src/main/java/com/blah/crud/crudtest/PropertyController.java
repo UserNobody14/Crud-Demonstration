@@ -60,39 +60,6 @@ public class PropertyController {
         Assert.notNull(property, "Didn't return a property");
         //propertyRepository.save(property);//remove this one.
         propertyService.create(property);
-        /*
-        //existing code to add new permussions for something.
-
-        ///////////////////////////////////////////////////////////////////////
-        //This is the acl boilerplate code:: it creates a new permission for the owner
-        //if (propertyRepository. == null) {
-            Property existingProperty = propertyRepository.findDistinctByPropname(property.getPropname());
-            ObjectIdentity oi = new ObjectIdentityImpl(Property.class, existingProperty.getPropID());
-//        }
-//        else {
-//            ObjectIdentity oi = new ObjectIdentityImpl(Property.class, property.getPropID());
-//        }
-        //TODO: write a class or service that does these automatically.
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String currentUser = ((String) auth.getName());
-        //otherstuff
-        //log it?
-        System.out.println("CURR_USER: " + currentUser);
-        // Prepare the information we'd like in our access control entry (ACE)
-
-        Sid sid = new PrincipalSid(currentUser);
-        Permission p = BasePermission.WRITE;
-        // Create or update the relevant ACL
-        MutableAcl acl = null;
-        try {
-            acl = (MutableAcl) aclService.readAclById(oi);
-        } catch (NotFoundException nfe) {
-            acl = aclService.createAcl(oi);
-        }
-        // Now grant some permissions via an access control entry (ACE)
-        acl.insertAce(acl.getEntries().size(), p, sid, true);
-        aclService.updateAcl(acl);
-        */
 
     }
 
