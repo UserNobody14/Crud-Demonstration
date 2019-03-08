@@ -5,6 +5,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "rating")
 public class Rating {
+    public long getRatingID() {
+        return ratingID;
+    }
+
+    public void setRatingID(long ratingID) {
+        this.ratingID = ratingID;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long ratingID;

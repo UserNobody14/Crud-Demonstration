@@ -1,8 +1,17 @@
 package com.blah.crud.crudtest.security;
 
+import com.blah.crud.crudtest.persistence.repository.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+//import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,11 +25,16 @@ import org.springframework.context.annotation.Bean;
 
 import static com.blah.crud.crudtest.security.SecurityConstants.SIGN_UP_URL;
 
+@Configuration
 @EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@ComponentScan("com.blah.crud.crudtest.authuser")
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-
+    @Autowired
+    ApplicationUserRepository applicationUserRepository;
+    @Autowired
     private UserDetailsServiceImpl userDetailsService;
-
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -33,11 +47,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         //will csrf interact poorly with js? should this be disabled?
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users/sign-up", "/login").permitAll()
-                .antMatchers(HttpMethod.GET, "users/sign-up", "/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/sign-up", "/login").permitAll()
                 .anyRequest().permitAll()//.authenticated() //CHANGE THIS!
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsService))
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -71,9 +85,18 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         */
     }
 
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(this.userDetailsService);
+        authProvider.setPasswordEncoder(bCryptPasswordEncoder);
+        return authProvider;
+    }
+
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(this.userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean

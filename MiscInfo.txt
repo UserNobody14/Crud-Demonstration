@@ -34,7 +34,7 @@ curl -H "Content-Type: application/json" \
 -X POST -d '{
     "description": "Buy watermelon",
 	"address": "buy",
-"propName": "e",
+"propname": "e",
 "avg_rating": 0.0,
 "price": 3,
 "poolsize": "bid"

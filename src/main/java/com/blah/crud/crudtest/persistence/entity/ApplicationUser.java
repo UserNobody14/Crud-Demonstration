@@ -1,6 +1,7 @@
 package com.blah.crud.crudtest.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.io.Serializable;
 import java.util.*;
 
 @Entity
-@Table(name = "application_user")
+@Table(name = "application_user", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_name"})})
 public class ApplicationUser implements UserDetails, Serializable {
 
   protected ApplicationUser() {}
@@ -97,9 +98,10 @@ public class ApplicationUser implements UserDetails, Serializable {
 
   @Override
   public Collection<Authority> getAuthorities() {
-    ArrayList<Authority> arr = new ArrayList<Authority>();
-    arr.addAll(Collections.singletonList(new Authority(authorities)));
-    return arr;
+      ArrayList a = new ArrayList<SimpleGrantedAuthority>();
+      a.add(new SimpleGrantedAuthority(this.authorityr));
+      return a;
+    //return new ArrayList<Authority>(Arrays.asList(new SimpleGrantedAuthority[] {new SimpleGrantedAuthority(this.authorityr)}));
   }
 
   public void setAuthorities(String authorities) {

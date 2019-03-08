@@ -3,6 +3,7 @@
 // tag::vars[]
 const React = require('react');
 const ReactDOM = require('react-dom');
+const axios = require('axios')
 const client = require('./client');
 const RatingDropdown = require('./RatingDropdown.jsx');
 import { Button, Form, FormGroup, Label, Input} from 'reactstrap';
@@ -110,7 +111,7 @@ class Property extends React.Component{
 		  body: JSON.stringify({
 				propID: this.props.backlink,
 		    rating: 3,
-		    comment: event.target.value
+		    comment: this.state.comment
 		  })
 		}).then(checkStatus)
 			//.then(response => response.headers,get('Authorization'))
@@ -147,12 +148,22 @@ class Property extends React.Component{
 				<td>{this.props.backlink}</td>
 				<td>
 				<form onSubmit={this.handleSubmit}>
-        <label>
-          Rate your stay:
-          <input type="text" value={this.state.rating} name="rating" onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form></td>
+        	<label>
+          	Rate your stay:
+          	<input type="text" value={this.state.comment} name="comment" onChange={this.handleChange} />
+        	</label>
+					<label>
+          		Pick your favorite flavor:
+          	<select value={this.state.rating} onChange={this.handleChange}>
+            	<option value=1>Grapefruit</option>
+            	<option value=2>Lime</option>
+            	<option value=3>Coconut</option>
+            	<option value=4>Mango</option>
+          	</select>
+        	</label>
+        	<input type="submit" value="Submit" />
+      	</form>
+			</td>
 
 			</tr>
 		)

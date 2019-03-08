@@ -3,10 +3,15 @@ package com.blah.crud.crudtest.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.blah.crud.crudtest.authuser.MyUserPrinciple;
+import com.blah.crud.crudtest.authuser.UserDetailsServiceImpl;
+import com.blah.crud.crudtest.persistence.entity.ApplicationUser;
 import com.blah.crud.crudtest.persistence.entity.Authority;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -23,8 +28,18 @@ import static com.blah.crud.crudtest.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager) {
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    //@Autowired
+    //private AuthenticationManager authenticationManager;
+
+    @Autowired
+    protected JWTAuthorizationFilter(AuthenticationManager authManager, UserDetailsServiceImpl userDetailsService) {
+        //this.userDetailsService = userDetailsService;
         super(authManager);
+        //this.authenticationManager = authManager;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -40,48 +55,42 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
         UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (authentication == null) {
+            System.out.println("BAD NULL AUTHENTICATE RIGHT NOW");
+        }
+
+        SecurityContextHolder.getContext()
+                .setAuthentication(authentication);
         chain.doFilter(req, res);
     }
+
     //MOST IMPORTANT!
     //From with in the filter stack, alters the security context and allows it to move on assuming it is correct.
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {
-            // parse the token.
-
-            //verifying the roles at this level maybe a bad idea? Perhaps find a better way.
-            /*String host = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
-                    .withClaim("authorities", "ROLE_HOST")
-                    .build()
-                    .verify(token.replace(TOKEN_PREFIX, ""))
-                    .getSubject();
-            String guest = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
-                    .withClaim("authorities", "ROLE_GUEST")
-                    .build()
-                    .verify(token.replace(TOKEN_PREFIX, ""))
-                    .getSubject();*/
             String general = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
                     //.withClaim("authorities", "ROLE_GUEST")
                     .build()
                     .verify(token.replace(TOKEN_PREFIX, ""))
                     .getSubject();
-
-            /*if (host != null && guest == null) {
-                return new UsernamePasswordAuthenticationToken(host, null,
-                        Collections.singletonList(new Authority("ROLE_HOST")));
-            }
-            else if (guest != null && host ==null) {
-                return new UsernamePasswordAuthenticationToken(guest, null,
-                        Collections.singletonList(new Authority("ROLE_GUEST")));
-            }*/
+            System.out.println("Reached some kinda position");
             if (general != null) {
-                return new UsernamePasswordAuthenticationToken(general, null,
-                        new ArrayList<>());
+                System.out.println(general);
+                return authenticateFromName(general);
             }
             return null;
         }
         return null;
+    }
+
+    private UsernamePasswordAuthenticationToken authenticateFromName(String name) {
+        MyUserPrinciple appUser = (MyUserPrinciple) userDetailsService.loadUserByUsername(name);
+        if (appUser != null) {
+            System.out.println("GOT THIS FAR, 'im at the UserDetails load part.");
+        }
+        //return new UsernamePasswordAuthenticationToken(name, null, new ArrayList<>());
+        return new UsernamePasswordAuthenticationToken(name, appUser.getPassword(), appUser.getAuthorities());
     }
 }

@@ -2,6 +2,7 @@ package com.blah.crud.crudtest.security;
 
 
 import com.auth0.jwt.JWT;
+import com.blah.crud.crudtest.authuser.MyUserPrinciple;
 import com.blah.crud.crudtest.persistence.entity.ApplicationUser;
 import com.blah.crud.crudtest.persistence.entity.Authority;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,9 +48,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     new UsernamePasswordAuthenticationToken(
                             creds.getUsername(),
                             creds.getPassword(),
+                            new ArrayList<>()
                             //(creds.getAuthorityr() != null) ? Collections.singletonList(new Authority(creds.getAuthorityr())):
                             //Collections.emptyList()
-                            new ArrayList<>()
+                            //creds.getAuthorities()
                     )
             );
         } catch (IOException e) {
@@ -64,7 +66,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication auth) throws IOException, ServletException {
 
         String token = JWT.create()
-                .withSubject(((User) auth.getPrincipal()).getUsername())
+                .withSubject(((MyUserPrinciple) auth.getPrincipal()).getUsername())
                 //.withClaim("authorityr", ((ApplicationUser) auth.getPrincipal()).getAuthorityr())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));

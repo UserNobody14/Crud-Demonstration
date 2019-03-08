@@ -2,8 +2,10 @@ package com.blah.crud.crudtest.persistence.entity;
 
 import javax.persistence.*;
 
+
+//@Table(name = "Property")
 @Entity
-@Table(name = "Property")
+@Table(name = "property", uniqueConstraints = {@UniqueConstraint(columnNames = {"propname"})})
 public class Property {
     public void setPropID(long propID) {
         this.propID = propID;
@@ -13,16 +15,17 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long propID;
 
-    public String getPropName() {
-        return propName;
+    public String getPropname() {
+        return propname;
     }
 
-    public void setPropName(String propName) {
-        this.propName = propName;
+    public void setPropname(String propname) {
+        this.propname = propname;
     }
 
     //IMPORTANT: name this column.
-    private String propName;
+    @Column(name = "propname")
+    private String propname;
 
     private String address;
 
@@ -36,8 +39,8 @@ public class Property {
 
     protected Property () {}
 
-    public Property (String description, String propName, String address, String poolsize, int price, float avgrating) {
-        this.propName = propName;
+    public Property (String description, String propname, String address, String poolsize, int price, float avgrating) {
+        this.propname = propname;
         this.description = description;
         this.address = address;
         this.poolsize = poolsize;

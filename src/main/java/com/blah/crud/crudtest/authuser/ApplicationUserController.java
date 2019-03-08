@@ -22,7 +22,6 @@ public class ApplicationUserController {
 
     private ApplicationUserRepository applicationUserRepository;
 
-
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 

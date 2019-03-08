@@ -1,5 +1,7 @@
 package com.blah.crud.crudtest;
 
+import com.blah.crud.crudtest.authuser.UserDetailsServiceImpl;
+import com.blah.crud.crudtest.persistence.repository.ApplicationUserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -13,6 +15,11 @@ public class CrudTestApplication {
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public UserDetailsServiceImpl userDetailsService(ApplicationUserRepository applicationUserRepository) {
+		return new UserDetailsServiceImpl(applicationUserRepository);
 	}
 
 	//@Bean

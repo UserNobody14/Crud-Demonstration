@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/properties")
@@ -66,7 +66,7 @@ public class PropertyController {
         ///////////////////////////////////////////////////////////////////////
         //This is the acl boilerplate code:: it creates a new permission for the owner
         //if (propertyRepository. == null) {
-            Property existingProperty = propertyRepository.findByPropName(property.getPropName());
+            Property existingProperty = propertyRepository.findDistinctByPropname(property.getPropname());
             ObjectIdentity oi = new ObjectIdentityImpl(Property.class, existingProperty.getPropID());
 //        }
 //        else {
@@ -102,36 +102,38 @@ public class PropertyController {
     }
 
     //Posts a new rating on the property defined by 'id'
-    @PreAuthorize("hasRole('GUEST')")
+    @PreAuthorize("hasAuthority('ROLE_GUEST')")
     @PostMapping("/{id}/ratings")
-    public void addRatingToProperty(@PathVariable long id,@RequestBody Rating rating) {
+    public void addRatingToProperty(@PathVariable Long id,@RequestBody Rating rating) {
         rating.setPropID(id);
         ratingRepository.save(rating);
     }
     //Gets all ratings associated with a property.
     @GetMapping("/{id}/ratings")
-    public List<Rating> getRatings(@PathVariable long id) {
+    public List<Rating> getRatings(@PathVariable Long id) {
         return ratingRepository.findBypropID(id);
     }
 
     @Transactional
     @PreAuthorize("hasRole('HOST')")
     @PutMapping("/{id}")
-    public void editProperty(@PathVariable long id, @RequestBody Property property) {
+    public void editProperty(@PathVariable Long id, @RequestBody Property property) {
         property.setPropID(id);
-
-        Property existingProperty = propertyRepository.findById(id).get();
+        propertyService.update(property, id);
+/*        Property existingProperty = propertyRepository.findById(id).get();
         Assert.notNull(existingProperty, "Property not found");
         //TODO: find all fields available in property and set them in the existing (database) property.
         existingProperty.setDescription(property.getDescription());
-        propertyRepository.save(existingProperty);
+        propertyRepository.save(existingProperty);*/
     }
 
     @Transactional
     @PreAuthorize("hasRole('HOST')")
     @DeleteMapping("/{id}")
-    public void deleteProperty(@PathVariable long id) {
-        Property propertyToDel = propertyRepository.findById(id).get();
-        propertyRepository.delete(propertyToDel);
+    public void deleteProperty(@PathVariable Long id) {
+        Optional<Property> possibleDelete = propertyRepository.findById(id);
+        if (possibleDelete.isPresent()) {
+            propertyRepository.delete(possibleDelete.get());
+        }
     }
 }
