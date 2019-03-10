@@ -119,6 +119,11 @@
                         <goals>
                             <goal>webpack</goal>
                         </goals>
+						    <configuration>
+        							<!-- optional: if not specified, it will run webpack's default
+        							build (and you can remove this whole <configuration> section.) -->
+        						<arguments>--config webpack.prod.js</arguments>
+    						</configuration>
                     </execution>
                 </executions>
             </plugin>

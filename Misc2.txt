@@ -1,0 +1,213 @@
+
+import React from 'react';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
+class ModalExample extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false
+    };
+
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+
+  render() {
+    return (
+      <div>
+        <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+          <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+          <ModalBody>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
+            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
+      </div>
+    );
+  }
+}
+
+export default ModalExample;
+
+
+
+        <FormGroup>
+          <Label for="exampleEmail">Email</Label>
+          <Input
+            type="email"
+            name="email"
+            id="exampleEmail"
+            placeholder="with a placeholder"
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="examplePassword">Password</Label>
+          <Input
+            type="password"
+            name="password"
+            id="examplePassword"
+            placeholder="password placeholder"
+          />
+        </FormGroup>
+
+
+import React from 'react';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+
+export default class Example extends React.Component {
+  render() {
+    return (
+      <Form inline>
+        <FormGroup>
+          <Label for="exampleEmail" hidden>Email</Label>
+          <Input type="email" name="email" id="exampleEmail" placeholder="Email" />
+        </FormGroup>
+        {' '}
+        <FormGroup>
+          <Label for="examplePassword" hidden>Password</Label>
+          <Input type="password" name="password" id="examplePassword" placeholder="Password" />
+        </FormGroup>
+        {' '}
+        <Button>Submit</Button>
+      </Form>
+    );
+  }
+}
+
+
+
+
+put.propTypes = {
+  children: PropTypes.node,
+  // type can be things like text, password, (typical input types) as well as select and textarea, providing children as you normally would to those.
+  type: PropTypes.string,
+  size: PropTypes.string,
+  bsSize: PropTypes.string,
+  state: deprecated(PropTypes.string, 'Please use the prop "valid"'),
+  valid: PropTypes.bool, // applied the is-valid class when true, does nothing when false
+  invalid: PropTypes.bool, // applied the is-invalid class when true, does nothing when false
+  tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+  // ref will only get you a reference to the Input component, use innerRef to get a reference to the DOM input (for things like focus management).
+  innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+  static: deprecated(PropTypes.bool, 'Please use the prop "plaintext"'),
+  plaintext: PropTypes.bool,
+  addon: PropTypes.bool,
+  className: PropTypes.string,
+  cssModule: PropTypes.object,
+};
+
+CustomInput.propTypes = {
+  className: PropTypes.string,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  type: PropTypes.string.isRequired, // radio, checkbox, select, range.
+  label: PropTypes.string, // used for checkbox and radios
+  inline: PropTypes.bool,
+  valid: PropTypes.bool, // applied the is-valid class when true, does nothing when false
+  invalid: PropTypes.bool, // applied the is-invalid class when true, does nothing when false
+  bsSize: PropTypes.string,
+  cssModule: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.array, PropTypes.func]), // for type="select"
+  // innerRef would be referenced to select node or input DOM node, depends on type property
+  innerRef: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+    PropTypes.func,
+  ])
+};
+
+Form.propTypes = {
+  children: PropTypes.node,
+  inline: PropTypes.bool,
+  // Pass in a Component to override default element
+  tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]), // default: 'form'
+  innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string]),
+  className: PropTypes.string,
+  cssModule: PropTypes.object,
+};
+
+FormFeedback.propTypes = {
+  children: PropTypes.node,
+  // Pass in a Component to override default element
+  tag: PropTypes.string, // default: 'div'
+  className: PropTypes.string,
+  cssModule: PropTypes.object,
+  valid: PropTypes.bool, // default: undefined
+  tooltip: PropTypes.bool
+};
+
+FormGroup.propTypes = {
+  children: PropTypes.node,
+  // Applied the row class when true, does nothing when false
+  row: PropTypes.bool,
+  // Applied the form-check class when true, form-group when false
+  check: PropTypes.bool,
+  inline: PropTypes.bool,
+  // Applied the disabled class when the check and disabled props are true, does nothing when false
+  disabled: PropTypes.bool,
+  // Pass in a Component to override default element
+  tag: PropTypes.string, // default: 'div'
+  className: PropTypes.string,
+  cssModule: PropTypes.object,
+};
+
+FormText.propTypes = {
+  children: PropTypes.node,
+  inline: PropTypes.bool,
+  // Pass in a Component to override default element
+  tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]), // default: 'small'
+  color: PropTypes.string, // default: 'muted'
+  className: PropTypes.string,
+  cssModule: PropTypes.object,
+};
+///////////////////////////////
+fetch('/login', { method: 'POST', headers: {'Content-Type': 'application/json'}, 
+body: JSON.stringify({ username: "rob", password: "pass", }) }).then(function(response) 
+{ console.log(response.headers.get('Authorization')) 
+console.log(response.headers.get('Date')) 
+console.log(response.status) 
+console.log(response.statusText) })
+
+use in functional style Optional java class.
+lookup resources on using java in functional style.
+Note: GrantedAuthoritySid is like principleSid for roles?
+use SimpleGrantedAuthority instead of the authority class?
+
+curl -H "Content-Type: application/json" -H "authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb24iLCJleHAiOjE1NTI4NzExNjd9.uuzPxYRsU6u6qHq8MkHlNT4hSh852UvcbuL04BCHJcK5Hro71VIW2NbBQpW0ySPY3P0FcEioGNUUHq9sv_kQvQ" -X POST -d '{
+    "propID": 878,
+"comment": "buy",
+"rating": 5
+}'  http://localhost:8080/properties/878/ratings
+
+curl -i -H "Content-Type: application/json" -X POST -d '{
+"username": "don",
+"password": "pass"
+}' http://localhost:8080/login
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb24iLCJleHAiOjE1NTI4NzIzOTR9.u_p4S_NHX8ihH0w67UPKw7WIf_BHbZ4eL0sImgvH6Ag652tAfj2P_v3xyVs8B6k17Wwm9lSkbj70ESYBrJ-cbA
+
+curl -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb24iLCJleHAiOjE1NTI4NzIzOTR9.u_p4S_NHX8ihH0w67UPKw7WIf_BHbZ4eL0sImgvH6Ag652tAfj2P_v3xyVs8B6k17Wwm9lSkbj70ESYBrJ-cbA" -X POST -d '{
+    "propID": 878,
+"comment": "buy",
+"rating": 5
+}'  http://localhost:8080/properties/878/ratings
+
+
+curl -H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb24iLCJleHAiOjE1NTI4NzIzOTR9.u_p4S_NHX8ihH0w67UPKw7WIf_BHbZ4eL0sImgvH6Ag652tAfj2P_v3xyVs8B6k17Wwm9lSkbj70ESYBrJ-cbA" \
+-X POST -d '{
+    "description": "Buy watermelon",
+	"address": "buy",
+"propName": "e",
+"avg_rating": 0.0,
+"price": 3,
+"poolsize": "bid"
+}'  http://localhost:8080/properties

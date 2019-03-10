@@ -76,6 +76,7 @@ public class PropertyController {
         ratingRepository.save(rating);
     }
     //Gets all ratings associated with a property.
+    //@RestController
     @GetMapping("/{id}/ratings")
     public List<Rating> getRatings(@PathVariable Long id) {
         return ratingRepository.findBypropID(id);

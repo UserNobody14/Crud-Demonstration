@@ -1,0 +1,47 @@
+Full stack spring boot 2.0 project react
+4 days
+max x-y coordinates
+paragraphs in pdfs
+box paragraphs
+return x-y coordinates of box
+Open cv
+return XML of text content
+Root
+	TextBlock
+		Content
+			TopX
+			TopY
+			Bottom Y
+4:00 Wednesday
+10:00 Cafe ladro
+TODO: figure out antMatchers
+TODO: figure out postman
+TODO: figure out that other app + thymeleaf thingy
+TODO: make propertyRepository & RatingRepository (and user repository?) Use Acl annotations like in baedelungs noticemessagerepository.
+TODO? use aclEntryVoter derivative? Another time I think.
+
+Authorization: Bearer 
+
+
+
+curl -H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2IiLCJleHAiOjE1NTI1NjEzMTZ9.9VVha6Gl756zoqUXYBrzdMGSpSej-OM6D_ijNEKFuk2n_fBgs0SYL5vBtG9Fk0b-LO_kaUWzbEa5VZyorW4ejw" \
+-X POST -d '{
+    "description": "Buy watermelon",
+	"address": "buy",
+"propName": "e",
+"avg_rating": 0.0,
+"price": 3,
+"poolsize": "bid"
+}'  http://localhost:8080/property
+
+
+//use in future?
+
+
+//RSA
+RSAPublicKey publicKey = //Get the key instance
+RSAPrivateKey privateKey = //Get the key instance
+Algorithm algorithmRS = Algorithm.RSA256(publicKey, privateKey);
+
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2IiLCJleHAiOjE1NTI2NTUyNTl9.e4MLe6VH49qAgCS3Ii-AJhIV2MsXAhiESASolOaMGjeen2pgEG71x7f5TMZ1LZs4kuxkVtGK_qTY6g3JaMmImg

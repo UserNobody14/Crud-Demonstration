@@ -4,7 +4,7 @@ class Auth {
     localStorage.setItem('token', token);
     return localStorage.getItem('token');
   }
-
+  //TODO: make it set whether user is a host or a guest when they register?
   /**
    * Authenticate a user. Save a token string in Local Storage
    *
@@ -21,6 +21,10 @@ class Auth {
    */
   static isUserAuthenticated() {
     return localStorage.getItem('token') !== null;
+  }
+
+  static isUserHost() {
+    return true;
   }
 
   /**
