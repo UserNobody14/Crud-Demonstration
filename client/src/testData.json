@@ -1,0 +1,137 @@
+{
+    "_embedded": {
+        "properties": [
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1490"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1490"
+                    }
+                }, 
+                "address": "EasyBeds", 
+                "avgrating": 0.0, 
+                "description": "EasyBeds", 
+                "poolsize": "EasyBeds", 
+                "price": 8, 
+                "propname": "EasyBeds"
+            }, 
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1491"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1491"
+                    }
+                }, 
+                "address": "Good Times", 
+                "avgrating": 0.0, 
+                "description": "Good Times", 
+                "poolsize": "Good Times", 
+                "price": 10, 
+                "propname": "Good Times"
+            }, 
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1492"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1492"
+                    }
+                }, 
+                "address": "FunPoolStay", 
+                "avgrating": 0.0, 
+                "description": "FunPoolStay", 
+                "poolsize": "FunPoolStay", 
+                "price": 11, 
+                "propname": "FunPoolStay"
+            }, 
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1493"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1493"
+                    }
+                }, 
+                "address": "At the park", 
+                "avgrating": 0.0, 
+                "description": "At the park", 
+                "poolsize": "At the park", 
+                "price": 11, 
+                "propname": "At the park"
+            }, 
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1494"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1494"
+                    }
+                }, 
+                "address": "Budweiser", 
+                "avgrating": 0.0, 
+                "description": "Budweiser", 
+                "poolsize": "Budweiser", 
+                "price": 9, 
+                "propname": "Budweiser"
+            }, 
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1495"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1495"
+                    }
+                }, 
+                "address": "Coors Light", 
+                "avgrating": 0.0, 
+                "description": "Coors Light", 
+                "poolsize": "Coors Light", 
+                "price": 11, 
+                "propname": "Coors Light"
+            }, 
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1496"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1496"
+                    }
+                }, 
+                "address": "PBR", 
+                "avgrating": 0.0, 
+                "description": "PBR", 
+                "poolsize": "PBR", 
+                "price": 3, 
+                "propname": "PBR"
+            }
+        ]
+    }, 
+    "_links": {
+        "profile": {
+            "href": "http://localhost:8080/api/profile/properties"
+        }, 
+        "search": {
+            "href": "http://localhost:8080/api/properties/search"
+        }, 
+        "self": {
+            "href": "http://localhost:8080/api/properties{?page,size,sort}", 
+            "templated": true
+        }
+    }, 
+    "page": {
+        "number": 0, 
+        "size": 20, 
+        "totalElements": 7, 
+        "totalPages": 1
+    }
+}
+

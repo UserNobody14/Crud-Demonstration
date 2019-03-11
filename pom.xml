@@ -93,6 +93,7 @@
                 <version>1.6</version>
                 <configuration>
                     <installDirectory>target</installDirectory>
+					<workingDirectory>client</workingDirectory>
                 </configuration>
                 <executions>
                     <execution>
@@ -101,8 +102,8 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
-                            <nodeVersion>v10.11.0</nodeVersion>
-                            <npmVersion>6.4.1</npmVersion>
+                            <nodeVersion>v11.9.0</nodeVersion>
+                            <npmVersion>6.5.0</npmVersion>
                         </configuration>
                     </execution>
                     <execution>

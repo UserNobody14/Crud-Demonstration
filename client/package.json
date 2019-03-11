@@ -1,0 +1,54 @@
+{
+  "name": "crud_demonstration",
+  "version": "0.0.1",
+  "description": "CRUD demo",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:UserNobody14/Crud-Demonstration.git"
+  },
+  "keywords": [
+    "rest",
+    "hateoas",
+    "spring",
+    "data",
+    "react"
+  ],
+  "author": "Ben Sobel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UserNobody14/Crud-Demonstration/issues"
+  },
+  "homepage": "https://github.com/UserNobody14/Crud-Demonstration",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.3.1",
+    "react": "^16.7.0",
+    "react-dom": "^16.8.4",
+    "react-hot-loader": "^4.8.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "reactstrap": "^7.1.0"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "watch": "webpack --watch -d"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@hot-loader/react-dom": "^16.7.0",
+    "babel-loader": "^8.0.2",
+    "clean-webpack-plugin": "^2.0.0",
+    "css-loader": "^2.1.1",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-merge": "^4.2.1"
+  }
+}
