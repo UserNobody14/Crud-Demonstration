@@ -2,7 +2,8 @@
 const React = require('react');
 const axios = require('axios');
 //const client = require('./client');
-const PropertyList = require('../Components/PropertyList.jsx');
+//const PropertyList = require('../Components/PropertyList.jsx').default;
+import PropertyList from '../Components/PropertyList.jsx';
 import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import Auth from '../Auth';
@@ -32,7 +33,8 @@ class PropertyContainer extends React.Component {
 
   componentDidMount() {
     //axios.get('/api/properties').then(nonimportant => this.setPropertyElements(nonimportant)).catch(nonimportant => this.setPropertyElements(newTest));
-		this.setState({properties: testData._embedded.properties})
+		this.setState({properties: testData._embedded.properties});
+		console.log("Mounting PropertyContainer...");
 		console.log(testData);
 	}
 	setPropertyElements(responseElement) {

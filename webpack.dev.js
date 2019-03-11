@@ -56,9 +56,9 @@
   ]
   */
    devServer: {
-     contentBase: './dist',
-     hot: true//[
-       //path.join(__dirname, 'src/main/resources/static'),
+     contentBase: [
+       path.join(__dirname, '/src/main/resources/static'),
+       path.join(__dirname, '/src/main/resources/templates')]
        //path.resolve(__dirname, 'dist')]'
    }
  });

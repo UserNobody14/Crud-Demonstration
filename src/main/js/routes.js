@@ -1,5 +1,5 @@
 import Base from './Components/BasePage.jsx';
-import PropertyContainer from './Containers/PropertyContainer.jsx';
+const PropertyContainer = require('./Containers/PropertyContainer.jsx').default;
 import HostDashboard from './Containers/HostDashboard.jsx';
 import LoginPage from './Containers/LoginPage.jsx';
 //import SignUpPage from './Containers/SignUpPage.jsx';
@@ -34,53 +34,9 @@ import {
       </div>
  */
 
-
-const routes = {
-  component: Base,
-  childRoutes: [
-
-    {
-      path: '/',
-      getComponent: (location, callback) => {
-        if (Auth.isUserAuthenticated()) {
-          if (Auth.isUserHost()) {
-            callback(null, HostDashboard);
-          } else {
-            callback(null, PropertyContainer);
-          }
-        } else {
-          callback(null, PropertyContainer);
-        }
-      }
-    },
-
-    {
-      path: '/login',
-      component: LoginPage
-    },
-
-    /*{
-      path: '/signup',
-      component: SignUpPage
-    },*/
-
-    {
-      path: '/logout',
-      onEnter: (nextState, replace) => {
-        Auth.deauthenticateUser();
-
-        // change the current URL to /
-        replace('/');
-      }
-    }
-
-  ]
-};
-
-export routes;
-
 import React, { Component } from "react";
-
+//////////////////////////////////////////////////////////
+//remember to add LoginPage, Logout redirect, and SignUpPage
 
 ////////////////////////////////////////////////////////////
 // 1. Click the public page
@@ -95,15 +51,15 @@ function AuthExample() {
         <AuthButton />
         <ul>
           <li>
-            <Link to="/public">Public Page</Link>
+            <Link to="/property-view">Public Page</Link>
           </li>
           <li>
-            <Link to="/protected">Protected Page</Link>
+            <Link to="/host-dashboard">Protected Page</Link>
           </li>
         </ul>
-        <Route path="/public" component={Public} />
-        <Route path="/login" component={Login} />
-        <PrivateRoute path="/protected" component={Protected} />
+        <Route path="/property-view" component={Public} />
+        <Route path="/login-page" component={Login} />
+        <PrivateRoute path="/host-dashboard" component={Protected} />
       </div>
     </Router>
   );
@@ -123,7 +79,7 @@ const fakeAuth = {
 
 const AuthButton = withRouter(
   ({ history }) =>
-    fakeAuth.isAuthenticated ? (
+    Auth.isUserAuthenticated() ? (
       <p>
         Welcome!{" "}
         <button
@@ -149,7 +105,7 @@ function PrivateRoute({ component: Component, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: "/login-page",
               state: { from: props.location }
             }}
           />
@@ -160,11 +116,11 @@ function PrivateRoute({ component: Component, ...rest }) {
 }
 
 function Public() {
-  return <h3>Public</h3>;
+  return <PropertyContainer />;
 }
 
 function Protected() {
-  return <h3>Protected</h3>;
+  return <HostDashboard />;
 }
 
 class Login extends Component {

@@ -1,9 +1,11 @@
 'use strict';
 
 // 'react-hot-loader/root';
-const React = require('react');
+//const React = require('react');
+import React from 'react';
 const axios = require('axios');
-const RatingDropdown = require('./RatingDropdown.jsx');
+//const RatingDropdown = require('./RatingDropdown.jsx');
+import RatingDropdown from './RatingDropdown.jsx';
 import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import Auth from '../Auth.js';
 
