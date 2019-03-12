@@ -5,36 +5,30 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
+import {
+  Button,
+  Card,
+  Container,
+  Col
+} from 'reactstrap';
 import React, { Component } from "react";
 import Auth from '../Auth';
-
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 100);
-  }
-};
 
 const AuthCard = withRouter(
   ({ history }) =>
     Auth.isUserAuthenticated() ? (
-      <p>
+      <Card>
         Welcome!{" "}
-        <button
+        <Button
           onClick={() => {
-            fakeAuth.signout(() => history.push("/"));
-          }}
-        >
+            Auth.deauthenticateUser();
+            history.push("/");
+          }}>
           Sign out
-        </button>
-      </p>
+        </Button>
+      </Card>
     ) : (
-      <p>You are not logged in.</p>
+      <Card>You are not logged in.</Card>
     )
 );
 

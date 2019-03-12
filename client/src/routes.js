@@ -12,53 +12,7 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
-
- /*
- Sometimes you need to render whether the path matches the location or not.
- In these cases, you can use the function children prop.
- It works exactly like render except that it gets called whether there is a match or not.
-
-The children render prop receives all the same route props as the component and render methods,
-except when a route fails to match the URL, then match is null.
-This allows you to dynamically adjust your UI based on whether or not the route matches.
-Here we're adding an active class if the route matches
-
-<ul>
-  <ListItemLink to="/somewhere" />
-  <ListItemLink to="/somewhere-else" />
-</ul>;
-
-const ListItemLink = ({ to, ...rest }) => (
-  <Route
-    path={to}
-    children={({ match }) => (
-      <li className={match ? "active" : ""}>
-        <Link to={to} {...rest} />
-      </li>
-    )}
-  />
-);
-       <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about/">About</Link>
-            </li>
-            <li>
-              <Link to="/users/">Users</Link>
-            </li>
-          </ul>
-        </nav>
-
-        <Route path="/" exact component={Index} />
-        <Route path="/about/" component={About} />
-        <Route path="/users/" component={Users} />
-      </div>
- */
-
+import SignUpPage from './Containers/SignUpPage.jsx'
 import React, { Component } from "react";
 //////////////////////////////////////////////////////////
 //remember to add LoginPage, Logout redirect, and SignUpPage
@@ -81,10 +35,14 @@ function AuthExample() {
           <li>
             <Link to="/host-dashboard">Host Dashboard</Link>
           </li>
+          <li>
+            <Link to="/sign-up-page">Sign Up</Link>
+          </li>
         </ul>
-        <Route path="/property-view" component={Public} />
-        <Route path="/login-page" component={LoginPage} />
-        <PrivateRoute path="/host-dashboard" component={Protected} />
+        <Route path="/property-view" component={() => <PropertyContainer />} />
+        <Route path="/sign-up-page" component={() => <SignUpPage />} />
+        <Route path="/login-page" component={ LoginPage } />
+        <PrivateRoute path="/host-dashboard" component={() => <HostDashboard />} />
       </div>
     </Router>
   );
@@ -112,13 +70,13 @@ function PrivateRoute({ component: Component, ...rest }) {
     />
   );
 }
-
-function Public() {
-  return <PropertyContainer />;
-}
-
-function Protected() {
-  return <HostDashboard />;
-}
+//
+// function Public() {
+//   return <PropertyContainer />;
+// }
+//
+// function Protected() {
+//   return <HostDashboard />;
+// }
 
 export default AuthExample;

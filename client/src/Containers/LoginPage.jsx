@@ -49,6 +49,7 @@ class LoginPage extends React.Component {
    login = (event) => {
      event.preventDefault();
      //this.setState()
+     //TODO figure out how to make it work via callbacks?
      this.setState({redirectToReferrer: Auth.authenticateUserName(this.state.user.username, this.state.user.password)});
    }
    //or should it be more like login = (event) => ...

@@ -10,8 +10,15 @@ import Auth from '../Auth';
 
 const testData = require('../testData.json');
 var newTest = {data: testData};
-newTest = {entity: {_embedded: {properties: [
-	{
+newTest = {data: {_embedded: {properties: [
+	{"_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1490"
+                    },
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1490"
+                    }
+                },
     "description": "Buy watermelon",
 	"address": "buy",
 "propName": "e",
@@ -28,12 +35,12 @@ class PropertyContainer extends React.Component {
 	}
 		setPropertyElements = (responseElement) => {
 		console.log(JSON.stringify(responseElement))
-		this.setState({properties: responseElement.data._embedded.properties});
+		this.setState({properties: responseElement._embedded.properties});
 	}
   componentDidMount() {
     axios.get('/api/properties')
 		.then(this.setPropertyElements)
-		.catch(nonimportant => this.setPropertyElements(newTest));
+		.catch(nonimportant => this.setPropertyElements(testData));
 		//this.setState({properties: testData._embedded.properties});
 		console.log("Mounting PropertyContainer...");
 		console.log(testData);

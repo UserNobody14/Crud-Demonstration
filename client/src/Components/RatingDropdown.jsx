@@ -11,26 +11,42 @@ import {
   ListGroupItemHeading,
   ListGroupItemText
 } from 'reactstrap';
+const axios = require('axios');
+
+const testData = {data:
+  [
+    {
+        "comment": "badPlace2Stay",
+        "propID": 1490,
+        "rating": 2,
+        "ratingID": 1903,
+        "userCanEdit": false
+    },
+    {
+        "comment": "sucks",
+        "propID": 1490,
+        "rating": 3,
+        "ratingID": 1904,
+        "userCanEdit": false
+    }
+]
+}
 
 class RatingDropdown extends Component {
-  constructor(props) {
-    super(props);
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      collapse: false,
-      ratings: []
-    };
+
+  state = {
+    collapse: false,
+    ratings: []
   }
   componentDidMount() {
-    client({
-      method: 'GET',
-      path: '/api/properties/' + this.props.backlink + '/ratings'
-    }).done(response => {
-      this.setState({properties: response.entity._embedded.properties});
-    });
+    axios({
+      method: 'get',
+      url: '/properties/' + this.props.backlink + '/ratings'
+    }).then(response => this.setState({ratings: response.data}))
+    .catch(() => this.setState({ratings: testData.data}));
   }
 
-  toggle() {
+  toggle = () => {
     this.setState(state => ({
       collapse: !state.collapse,
       ratings: this.state.ratings
@@ -52,7 +68,8 @@ const myF = link => Number(link.replace("http://localhost:8080/api/ratings/", ""
 
 class RatingList extends React.Component {
   render() {
-    const ratings = this.props.ratings.map(rating => <Rating key={rating._links.self.href} rating={rating} backlink={myF(rating._links.self.href)}/>); //Replace these with a reactstrap version.?
+    //add key back in later.
+    const ratings = this.props.ratings.map(rating => <Rating rating={rating} backlink={rating.ratingID}/>); //Replace these with a reactstrap version.?
     return (<ListGroup>
       {ratings}
     </ListGroup>)
