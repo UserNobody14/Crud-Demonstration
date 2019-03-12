@@ -23,23 +23,22 @@ newTest = {entity: {_embedded: {properties: [
 
 class PropertyContainer extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      properties: []
-    };
-    //this.setPropertyElements = this.setPropertyElements.bind(this)
-  }
-
+	state = {
+		properties: []
+	}
+		setPropertyElements = (responseElement) => {
+		console.log(JSON.stringify(responseElement))
+		this.setState({properties: responseElement.data._embedded.properties});
+	}
   componentDidMount() {
-    //axios.get('/api/properties').then(nonimportant => this.setPropertyElements(nonimportant)).catch(nonimportant => this.setPropertyElements(newTest));
-		this.setState({properties: testData._embedded.properties});
+    axios.get('/api/properties')
+		.then(this.setPropertyElements)
+		.catch(nonimportant => this.setPropertyElements(newTest));
+		//this.setState({properties: testData._embedded.properties});
 		console.log("Mounting PropertyContainer...");
 		console.log(testData);
 	}
-	setPropertyElements(responseElement) {
-		this.setState({properties: responseElement._embedded.properties});
-	}
+
   render() {
 		console.log(this.state.properties)
     return (<PropertyList properties={this.state.properties}/>)

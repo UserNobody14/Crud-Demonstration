@@ -42,8 +42,9 @@ class Auth {
   }
   static authenticateUserName(username, password) {
     var z = true;
-    axios.post('/login', {headers: {'Content-Type': 'application/json'},
-    data: {username: username, password: password}})
+    axios('/login', {headers: {'Content-Type': 'application/json'},
+    data: {username: username, password: password},
+  method: 'post'})
     .then(response => Auth.authenticateUser(response.headers.authorization))
     .catch(() => {z = false});
     return z;

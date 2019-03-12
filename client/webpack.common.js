@@ -8,50 +8,48 @@
 
  module.exports = {
    entry: {
-     app: './src/main/js/app.js'
+     app: './src/app.js'
    },
-       resolve: {
-    alias: {
-      'react-dom': '@hot-loader/react-dom'
-    }
-},
-	    module:
-	{
-        rules: [
-            	{
-                test: /\.(js|jsx)$/,
-                //path.resolve(__dirname, '.'),//
-                exclude: /(node_modules)/,
-                use: [
-						            {
-                    		    loader: 'babel-loader',
-                    		      options: {
-                        		      presets: ["@babel/preset-env", "@babel/preset-react"],
-								                  plugins: ["@babel/plugin-proposal-class-properties",
-                                  "react-hot-loader/babel"]
-                    		          }
-                		         }
-					             ]
-              },
+   resolve: {
+     alias: {
+       'react-dom': '@hot-loader/react-dom'
+     }
+   },
+   module: {
+     rules: [{
+         test: /\.(js|jsx)$/,
+         //path.resolve(__dirname, '.'),//
+         exclude: /(node_modules)/,
+         use: [{
+           loader: 'babel-loader',
+           options: {
+             presets: ["@babel/preset-env", "@babel/preset-react"],
+             plugins: ["@babel/plugin-proposal-class-properties",
+               "react-hot-loader/babel"
+             ]
+           }
+         }]
+       },
 
-              {
-         		 	test: /\.css$/,
-              //exclude: /(node_modules)/,
-              loader: "style-loader!css-loader"
-         		 	//use: ['style-loader']//, 'css-loader']
-            }
+       {
+         test: /\.css$/,
+         //exclude: /(node_modules)/,
+         loader: "style-loader!css-loader"
+         //use: ['style-loader']//, 'css-loader']
+       }
 
-        		]
-    },
+     ]
+   },
    plugins: [
      new CleanWebpackPlugin(),
      new HtmlWebpackPlugin({
        title: 'Dev',
-       template: './src/main/resources/templates/index.html'}),
-	     //new webpack.HotModuleReplacementPlugin()
+       template: '../server/src/main/resources/templates/index.html'
+     }),
+     //new webpack.HotModuleReplacementPlugin()
    ],
    output: {
-     filename: 'bundle.js',
-     path: path.resolve(__dirname, 'dist')
+     filename: 'built/bundle.js',
+     path: path.resolve(__dirname, '../server/src/main/resources/static')
    }
  };

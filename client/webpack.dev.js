@@ -55,10 +55,11 @@
     ),
   ]
   */
+  //IDEA/TODO: make this resolve on a port, then run it on a 
    devServer: {
      contentBase: [
-       path.join(__dirname, '/src/main/resources/static'),
-       path.join(__dirname, '/src/main/resources/templates')]
+       //path.resolve(__dirname, 'static'),
+       path.resolve(__dirname, 'html')]
        //path.resolve(__dirname, 'dist')]'
    }
  });

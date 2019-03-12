@@ -45,3 +45,180 @@ RSAPrivateKey privateKey = //Get the key instance
 Algorithm algorithmRS = Algorithm.RSA256(publicKey, privateKey);
 
 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2IiLCJleHAiOjE1NTI2NTUyNTl9.e4MLe6VH49qAgCS3Ii-AJhIV2MsXAhiESASolOaMGjeen2pgEG71x7f5TMZ1LZs4kuxkVtGK_qTY6g3JaMmImg
+
+curl -H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb2IiLCJleHAiOjE1NTI1NjEzMTZ9.9VVha6Gl756zoqUXYBrzdMGSpSej-OM6D_ijNEKFuk2n_fBgs0SYL5vBtG9Fk0b-LO_kaUWzbEa5VZyorW4ejw" \
+-X GET -d '{
+    "description": "Buy watermelon",
+	"address": "buy",
+"propName": "e",
+"avg_rating": 0.0,
+"price": 3,
+"poolsize": "bid"
+}'  http://localhost:8080/property
+
+
+
+
+
+
+
+
+
+{
+    "_embedded": {
+        "properties": [
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1490"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1490"
+                    }
+                }, 
+                "address": "EasyBeds", 
+                "avgrating": 0.0, 
+                "description": "EasyBeds", 
+                "poolsize": "EasyBeds", 
+                "price": 8, 
+                "propname": "EasyBeds"
+            }, 
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1491"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1491"
+                    }
+                }, 
+                "address": "Good Times", 
+                "avgrating": 0.0, 
+                "description": "Good Times", 
+                "poolsize": "Good Times", 
+                "price": 10, 
+                "propname": "Good Times"
+            }, 
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1492"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1492"
+                    }
+                }, 
+                "address": "FunPoolStay", 
+                "avgrating": 0.0, 
+                "description": "FunPoolStay", 
+                "poolsize": "FunPoolStay", 
+                "price": 11, 
+                "propname": "FunPoolStay"
+            }, 
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1493"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1493"
+                    }
+                }, 
+                "address": "At the park", 
+                "avgrating": 0.0, 
+                "description": "At the park", 
+                "poolsize": "At the park", 
+                "price": 11, 
+                "propname": "At the park"
+            }, 
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1494"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1494"
+                    }
+                }, 
+                "address": "Budweiser", 
+                "avgrating": 0.0, 
+                "description": "Budweiser", 
+                "poolsize": "Budweiser", 
+                "price": 9, 
+                "propname": "Budweiser"
+            }, 
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1495"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1495"
+                    }
+                }, 
+                "address": "Coors Light", 
+                "avgrating": 0.0, 
+                "description": "Coors Light", 
+                "poolsize": "Coors Light", 
+                "price": 11, 
+                "propname": "Coors Light"
+            }, 
+            {
+                "_links": {
+                    "property": {
+                        "href": "http://localhost:8080/api/properties/1496"
+                    }, 
+                    "self": {
+                        "href": "http://localhost:8080/api/properties/1496"
+                    }
+                }, 
+                "address": "PBR", 
+                "avgrating": 0.0, 
+                "description": "PBR", 
+                "poolsize": "PBR", 
+                "price": 3, 
+                "propname": "PBR"
+            }
+        ]
+    }, 
+    "_links": {
+        "profile": {
+            "href": "http://localhost:8080/api/profile/properties"
+        }, 
+        "search": {
+            "href": "http://localhost:8080/api/properties/search"
+        }, 
+        "self": {
+            "href": "http://localhost:8080/api/properties{?page,size,sort}", 
+            "templated": true
+        }
+    }, 
+    "page": {
+        "number": 0, 
+        "size": 20, 
+        "totalElements": 7, 
+        "totalPages": 1
+    }
+}
+
+///////////////////////////////////////////////////////////////////////
+
+[
+    {
+        "comment": "badPlace2Stay", 
+        "propID": 1860, 
+        "rating": 2, 
+        "ratingID": 1490, 
+        "userCanEdit": true
+    }, 
+    {
+        "comment": "sucks", 
+        "propID": 1860, 
+        "rating": 3, 
+        "ratingID": 1868, 
+        "userCanEdit": true
+    }
+]
+
+
