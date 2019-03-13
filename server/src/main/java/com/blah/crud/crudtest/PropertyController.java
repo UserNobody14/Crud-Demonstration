@@ -78,7 +78,8 @@ public class PropertyController {
     @PostMapping("/{id}/ratings")
     public void addRatingToProperty(@PathVariable Long id,@RequestBody Rating rating) {
         rating.setPropID(id);
-        ratingRepository.save(rating);
+        propertyService.createRatingAndTest(rating, SecurityContextHolder.getContext().getAuthentication().getName());
+        //ratingRepository.save(rating);
     }
     //Gets all ratings associated with a property.
     //@RestController

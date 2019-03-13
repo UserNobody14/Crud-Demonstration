@@ -55,12 +55,13 @@
     ),
   ]
   */
-  //IDEA/TODO: make this resolve on a port, then run it on a 
+  //IDEA/TODO: make this resolve on a port, then run it on a
    devServer: {
      contentBase: [
        //path.resolve(__dirname, 'static'),
-       path.resolve(__dirname, 'html')]
+       path.resolve(__dirname, 'html')],
        //path.resolve(__dirname, 'dist')]'
+       port: 9000
    }
  });
  //http://localhost:9000/webpack-dev-server.

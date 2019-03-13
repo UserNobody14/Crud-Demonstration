@@ -24,34 +24,6 @@ class PropertyList extends React.Component {
 		);//Replace these with a reactstrap version.?
 		console.log("Rendering PropertyList...")
 		return (<div>{properties}</div>);
-			// <div>
-			// {properties}
-			// </div>
-			/*
-			<div>
-			<table>
-				<tbody>
-					<tr>
-						<th>Name</th>
-						<th>Address</th>
-						<th>Poolsize</th>
-            <th>Average Rating</th>
-						<th>backlinked Id</th>
-						<th>create rating</th>
-					</tr>
-					//{properties}
-					<tr>
-						<th>Name</th>
-						<th>Address</th>
-						<th>Poolsize</th>
-            <th>Average Rating</th>
-						<th>backlinked Id</th>
-						<th>create rating</th>
-					</tr>
-				</tbody>
-			</table>
-			</div>*/
-		//)
 	}
 }
 export default PropertyList;

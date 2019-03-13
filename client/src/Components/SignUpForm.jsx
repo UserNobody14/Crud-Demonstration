@@ -14,6 +14,7 @@ import Auth from '../Auth';
 class SignUpForm extends React.Component {
 	//add forms for email and host vs. guest.
   render() {
+    //add a Col element?
     return (
 			<Card>
 				<Form onSubmit={this.props.onSubmit} onChange={this.props.onChange}>

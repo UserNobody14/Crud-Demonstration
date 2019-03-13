@@ -46,7 +46,8 @@ class Property extends React.Component {
     }
     console.log(this.props.backlink);
     axios({
-      url: `/properties/${this.props.backlink}/ratings`,
+      url: Auth.urlGet() + `/properties/${this.props.backlink}/ratings`,
+      method: 'post',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': Auth.getToken()
@@ -57,7 +58,7 @@ class Property extends React.Component {
         comment: this.state.comment
       }
     }).then(function(data) {
-      alert('A rating was submitted: ' + data.json());
+      alert('A rating was submitted: ' + data.data);
       console.log('request succeeded with JSON response', data.json());
     }).catch(function(error) {
       console.log('request failed', error)

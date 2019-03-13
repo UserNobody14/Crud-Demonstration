@@ -10,7 +10,8 @@ import {
   Route,
   Link,
   Redirect,
-  withRouter
+  withRouter,
+  Switch
 } from "react-router-dom";
 import SignUpPage from './Containers/SignUpPage.jsx'
 import React, { Component } from "react";
@@ -22,6 +23,25 @@ import React, { Component } from "react";
 // 2. Click the protected page
 // 3. Log in
 // 4. Click the back button, note the URL each time
+
+const routesX = [
+  {
+    path: "/",
+    exact: true,
+    sidebar: () => <div>home!</div>,
+    main: () => <h2>Home</h2>
+  },
+  {
+    path: "/bubblegum",
+    sidebar: () => <div>bubblegum!</div>,
+    main: () => <h2>Bubblegum</h2>
+  },
+  {
+    path: "/shoelaces",
+    sidebar: () => <div>shoelaces!</div>,
+    main: () => <h2>Shoelaces</h2>
+  }
+];
 
 function AuthExample() {
   return (
@@ -39,10 +59,13 @@ function AuthExample() {
             <Link to="/sign-up-page">Sign Up</Link>
           </li>
         </ul>
-        <Route path="/property-view" component={() => <PropertyContainer />} />
-        <Route path="/sign-up-page" component={() => <SignUpPage />} />
-        <Route path="/login-page" component={ LoginPage } />
-        <PrivateRoute path="/host-dashboard" component={() => <HostDashboard />} />
+        <Switch>
+          <Route path="/property-view" component={() => <PropertyContainer />} />
+          <Route path="/sign-up-page" component={() => <SignUpPage />} />
+          <Route path="/login-page" component={ LoginPage } />
+          <PrivateRoute path="/host-dashboard" component={() => <HostDashboard />} />
+          <Route path="/:propID" component={ LoginPage } />
+        </Switch>
       </div>
     </Router>
   );
@@ -50,6 +73,11 @@ function AuthExample() {
 //Check whether {() => <PropertyContainer />} works?
 //TODO: get private route working on (for instance) the add comment buttons under properties.
 //TODO: add a page for individual properties
+
+//match.params.propID
+function IndividualPropertyItem({ match }) {
+  return null;
+}
 
 function PrivateRoute({ component: Component, ...rest }) {
   return (
@@ -70,13 +98,4 @@ function PrivateRoute({ component: Component, ...rest }) {
     />
   );
 }
-//
-// function Public() {
-//   return <PropertyContainer />;
-// }
-//
-// function Protected() {
-//   return <HostDashboard />;
-// }
-
 export default AuthExample;

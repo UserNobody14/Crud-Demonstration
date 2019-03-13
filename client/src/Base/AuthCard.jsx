@@ -14,6 +14,8 @@ import {
 import React, { Component } from "react";
 import Auth from '../Auth';
 
+//Add a title screen into base?
+
 const AuthCard = withRouter(
   ({ history }) =>
     Auth.isUserAuthenticated() ? (

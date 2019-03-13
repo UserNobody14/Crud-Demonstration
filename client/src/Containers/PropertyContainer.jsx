@@ -35,12 +35,12 @@ class PropertyContainer extends React.Component {
 	}
 		setPropertyElements = (responseElement) => {
 		console.log(JSON.stringify(responseElement))
-		this.setState({properties: responseElement._embedded.properties});
+		this.setState({properties: responseElement.data._embedded.properties});
 	}
   componentDidMount() {
-    axios.get('/api/properties')
+    axios.get(Auth.urlGet() + '/api/properties')
 		.then(this.setPropertyElements)
-		.catch(nonimportant => this.setPropertyElements(testData));
+		//.catch(nonimportant => this.setPropertyElements(testData));
 		//this.setState({properties: testData._embedded.properties});
 		console.log("Mounting PropertyContainer...");
 		console.log(testData);

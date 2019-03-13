@@ -80,6 +80,19 @@ public class PropertyServiceImpl implements PropertyService {
         ), BasePermission.WRITE, Property.class);
     }
 
+    public float averageRating(Long propId) {
+        List<Rating> ratingList = ratingRepository.findBypropID(propId);
+        int number = ratingList.size();
+        int sum = ratingList.stream().mapToInt(Rating::getRating).sum();
+        return (float) sum / number;
+    }
+
+    private void addAvgRating(Long propId, Property p) {
+        float newRating = averageRating(propId);
+        p.setAvgrating(newRating);
+        propertyRepository.save(p);
+    }
+
     @PreAuthorize("hasAuthority('ROLE_HOST') and hasPermission(#property, 'WRITE')")
     @Override
     public void delete(@Param("property") Property property, long id) {

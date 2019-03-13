@@ -42,17 +42,39 @@ class Auth {
   }
   static authenticateUserName(username, password) {
     var z = true;
-    axios('/login', {headers: {'Content-Type': 'application/json'},
+    axios({
+      url: Auth.urlGet() + '/login',
+      headers: {'Content-Type': 'application/json'},
     data: {username: username, password: password},
   method: 'post'})
-    .then(response => Auth.authenticateUser(response.headers.authorization))
+    .then(response => {
+      Auth.authenticateUser(response.headers.authorization);
+      console.log(JSON.stringify(response.headers.authorization))
+      console.log(response.headers);
+      })
     .catch(() => {z = false});
+    console.log(z);
     return z;
   }
 
-  static makeAuthenticatedPost(url, data) {
-    Auth.makeAuthenticatedPost('post', url, data)
+  static authenticatedHeaders() {
+    if (Auth.isUserAuthenticated()) {
+      return {'Authorization': Auth.getToken(), 'Content-Type': 'application/json'};
+    }
+    else {
+      return {'Content-Type': 'application/json'};
+    }
+
   }
+
+  static urlGet() {
+    return "http://localhost:8080";
+    //return "";
+  }
+
+  // static makeAuthenticatedPost(url, data) {
+  //   Auth.makeAuthenticatedPost('post', url, data)
+  // }
 
   static authenticateThrough(token) {
     localStorage.setItem('token', token);

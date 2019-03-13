@@ -12,6 +12,7 @@ import {
   ListGroupItemText
 } from 'reactstrap';
 const axios = require('axios');
+import Auth from '../Auth';
 
 const testData = {data:
   [
@@ -39,11 +40,13 @@ class RatingDropdown extends Component {
     ratings: []
   }
   componentDidMount() {
+    const headers = Auth.authenticatedHeaders();
     axios({
       method: 'get',
-      url: '/properties/' + this.props.backlink + '/ratings'
-    }).then(response => this.setState({ratings: response.data}))
-    .catch(() => this.setState({ratings: testData.data}));
+      url: Auth.urlGet() + '/properties/' + this.props.backlink + '/ratings',
+      headers: Auth.authenticatedHeaders()
+    }).then(response => this.setState({ratings: response.data}));
+    //.catch(() => this.setState({ratings: testData.data}));
   }
 
   toggle = () => {
@@ -55,13 +58,13 @@ class RatingDropdown extends Component {
 
   render() {
     return (<div>
-      <Button color="primary" onClick={this.toggle} style={{
-          marginBottom: '1rem'
-        }}>Ratings</Button>
-      <Collapse isOpen={this.state.collapse}>
-        <RatingList ratings={this.state.ratings}></RatingList>
-      </Collapse>
-    </div>);
+            <Button color="primary" onClick={this.toggle} style={{
+                marginBottom: '1rem'
+              }}>Ratings</Button>
+                <Collapse isOpen={this.state.collapse}>
+              <RatingList ratings={this.state.ratings}></RatingList>
+            </Collapse>
+          </div>);
   }
 }
 const myF = link => Number(link.replace("http://localhost:8080/api/ratings/", ""));
