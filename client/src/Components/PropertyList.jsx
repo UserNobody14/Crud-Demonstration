@@ -17,10 +17,27 @@ class PropertyList extends React.Component {
 	componentDidMount() {
 		console.log("Mounting PropertyList...")
 	}
+	linkFind(property) {
+		if (typeof property._links !== 'undefined') {
+			if (typeof property._links.self !== 'undefined'){
+			var realLink = property._links.self.href;
+		var backlink = Number(realLink.replace(Auth.urlGet() + '/api/properties/', ""));
+		var back2 = realLink.replace(Auth.urlGet() + '/api/properties/', "");
+		return [realLink, backlink, back2];
+	}
+		}
+		else if (typeof property.propID !== 'undefined') {
+			var backlink = property.propID;
+			var realLink = Auth.urlGet() + "/api/properties/" + backlink;
+			console.log(backlink);
+			console.log(realLink);
+			return [realLink, backlink];
+		}
+	}
 	render() {
 		const properties = this.props.properties.map(property =>
-			<Property key={property._links.self.href} property={property}
-			backlink={Number(property._links.self.href.replace("http://localhost:8080/api/properties/", ""))}/>
+			<Property key={this.linkFind(property)[0]} property={property}
+				backlink={this.linkFind(property)[1]}/>
 		);//Replace these with a reactstrap version.?
 		console.log("Rendering PropertyList...")
 		return (<div>{properties}</div>);

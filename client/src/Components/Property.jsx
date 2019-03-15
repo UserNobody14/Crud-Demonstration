@@ -59,7 +59,7 @@ class Property extends React.Component {
       }
     }).then(function(data) {
       alert('A rating was submitted: ' + data.data);
-      console.log('request succeeded with JSON response', data.json());
+      console.log('request succeeded with JSON response', data.data);
     }).catch(function(error) {
       console.log('request failed', error)
     })
@@ -72,26 +72,9 @@ class Property extends React.Component {
         <Col>{this.props.property.propname}</Col>
         <Col>{this.props.property.address}</Col>
         <Col>{this.props.property.poolsize}</Col>
+        <Col>{this.props.property.description}</Col>
         <Col>{this.props.property.avgrating}</Col>
         <Col>{this.props.backlink}</Col>
-        <Col>
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Leave a comment:
-              <input type="text" value={this.state.comment} name="comment" onChange={this.handleChange}/>
-            </label>
-            <label>
-              Rate your stay:
-              <select value={this.state.rating} onChange={this.handleChange}>
-                <option value="1">"1"</option>
-                <option value="2">"2"</option>
-                <option value="3">"3"</option>
-                <option value="4">"4"</option>
-              </select>
-            </label>
-            <input type="submit" value="Submit"/>
-          </form>
-        </Col>
     </Row>
     <Row>
         <RatingDropdown backlink={ this.props.backlink }/>
@@ -99,5 +82,20 @@ class Property extends React.Component {
   </Container>)
 }//// NOTE: to self, remove the big rating submit form and place it elsewhere.
 }
+/*
+<Container>
+      <Row>
+        <Col>{this.props.property.propname}</Col>
+        <Col>{this.props.property.address}</Col>
+        <Col>{this.props.property.poolsize}</Col>
+        <Col>{this.props.property.description}</Col>
+        <Col>{this.props.property.avgrating}</Col>
+        <Col>{this.props.backlink}</Col>
+    </Row>
+    <Row>
+        <RatingDropdown backlink={ this.props.backlink }/>
+    </Row>
+  </Container>
+*/
 
 export default Property;

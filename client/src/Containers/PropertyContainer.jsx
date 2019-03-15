@@ -33,13 +33,32 @@ class PropertyContainer extends React.Component {
 	state = {
 		properties: []
 	}
-		setPropertyElements = (responseElement) => {
-		console.log(JSON.stringify(responseElement))
-		this.setState({properties: responseElement.data._embedded.properties});
+	setPropertyElements = (responseElement) => {
+		//console.log(JSON.stringify(responseElement))
+		let dt = responseElement.data;
+		let rt = (Array.isArray(dt)) ? {properties: dt}
+		: {properties: dt._embedded.properties};
+		this.setState(rt)
+	}
+	generalQuery = (append) => {
+		const retData = {url: Auth.urlGet() + append, method: 'get', headers: Auth.authenticatedHeaders()};
+		console.log(retData);
+		return retData;
+	}
+	queryParams = () => {
+		if(this.props.propID != null) {
+			return this.generalQuery(`/api/properties/${this.props.propID}`);
+		}
+		else if(this.props.searchString != null) {
+			return this.generalQuery(`/properties/search/${this.props.searchString}`);
+		}
+		else {
+			return this.generalQuery('/api/properties');
+		}
 	}
   componentDidMount() {
-    axios.get(Auth.urlGet() + '/api/properties')
-		.then(this.setPropertyElements)
+		//if this.props.individualize == true add this.props.propID to the url
+		axios(this.queryParams()).then(this.setPropertyElements)
 		//.catch(nonimportant => this.setPropertyElements(testData));
 		//this.setState({properties: testData._embedded.properties});
 		console.log("Mounting PropertyContainer...");

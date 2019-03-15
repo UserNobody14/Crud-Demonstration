@@ -13,7 +13,8 @@ import {
   withRouter,
   Switch
 } from "react-router-dom";
-import SignUpPage from './Containers/SignUpPage.jsx'
+import SignUpPage from './Containers/SignUpPage.jsx';
+import SearchContainer from './Containers/SearchContainer.jsx';
 import React, { Component } from "react";
 //////////////////////////////////////////////////////////
 //remember to add LoginPage, Logout redirect, and SignUpPage
@@ -50,7 +51,7 @@ function AuthExample() {
         <AuthCard />
         <ul>
           <li>
-            <Link to="/property-view">View Properties</Link>
+            <Link to="/property-view">View All Properties</Link>
           </li>
           <li>
             <Link to="/host-dashboard">Host Dashboard</Link>
@@ -58,13 +59,17 @@ function AuthExample() {
           <li>
             <Link to="/sign-up-page">Sign Up</Link>
           </li>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
         </ul>
+        <Route exact path="/" component={() => <SearchContainer />} />
         <Switch>
-          <Route path="/property-view" component={() => <PropertyContainer />} />
+          <Route path="/property-view" component={() => <PropertyContainer propID={null} searchString={null} />} />
           <Route path="/sign-up-page" component={() => <SignUpPage />} />
           <Route path="/login-page" component={ LoginPage } />
           <PrivateRoute path="/host-dashboard" component={() => <HostDashboard />} />
-          <Route path="/:propID" component={ LoginPage } />
+          <Route path="individual/:propID" component={ LoginPage } />
         </Switch>
       </div>
     </Router>

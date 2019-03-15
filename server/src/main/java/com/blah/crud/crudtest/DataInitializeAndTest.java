@@ -17,8 +17,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
 @Component
@@ -86,10 +87,11 @@ public class DataInitializeAndTest implements CommandLineRunner {
     }
 
     public void insertOwnedObjects() {
-        Stream.of("EasyBeds", "Good Times", "FunPoolStay", "At the park",
+        /*Stream.of("EasyBeds", "Good Times", "FunPoolStay", "At the park",
                 "Budweiser", "Coors Light", "PBR").forEach(name ->
                 propertyService.createAndTest(new Property(name, name, name, name, name.length(), (float) 0.0), "rob")
-        );
+        );*/
+        altAddProperties();
         propertyRepository.findAll().forEach(property -> {
             propertyService.createRatingAndTest(new Rating("badPlace2Stay",
                     2, property.getPropID()), "don");
@@ -97,6 +99,37 @@ public class DataInitializeAndTest implements CommandLineRunner {
                     "kate");
         });
 
+    }
+    private static <T1, T2> void iterateSimultaneously(Iterable<T1> c1, Iterable<T2> c2, BiConsumer<T1, T2> consumer) {
+        Iterator<T1> i1 = c1.iterator();
+        Iterator<T2> i2 = c2.iterator();
+        while (i1.hasNext() && i2.hasNext()) {
+            consumer.accept(i1.next(), i2.next());
+        }
+    }
+    //
+    private void altAddProperties() {
+        List<Property> addingProperties =
+                Arrays.asList(new Property("Seaside"),
+                        new Property("Great waterworks"),
+                        new Property("Fun times Resort"),
+                        new Property("Six flags of water parks"),
+                        new Property("Great bear resort"));
+        //Stream.of("543 Southside Drive").forEach(address -> propertyIterator.next().setAddress(address));
+
+        Iterator<String> addresses = Stream.of("543 Southside Drive", "542 Blixxard hollow", "422 Bargnard Way",
+        "412 Bagrassman Drive", "Blakely Street", "731 Gromagon Street").iterator();
+        Iterator<String> descriptions = Stream.of("A great place to stay with family, easy to reach.",
+                "An easy seasinde escape", "You'll love it here, we gaurantee.", "our pools are the best!",
+                "Beaches fit for a king!", "The disneyland of water!").iterator();
+        Iterator<String> poolsizes = Stream.of("big", "small", "miniscule", "massive", "medium", "small").iterator();
+
+        for (Property p : addingProperties) {
+            p.setAddress(addresses.next());
+            p.setPoolsize(poolsizes.next());
+            p.setDescription(descriptions.next());
+            propertyService.createAndTest(p, "rob");
+        }
     }
     private void getRatings(UsernamePasswordAuthenticationToken auth) {
         System.out.println("Seeking RatingsLists.............");
@@ -113,7 +146,7 @@ public class DataInitializeAndTest implements CommandLineRunner {
 //            System.out.println(propertyService.getOwner(rating));
 //        });
 //        setWhichAreEditable(r2);
-        //makeOwnedItemsEditable(r);
+        //hmakeOwnedItemsEditable(r);
         r.forEach(rating -> System.out.println(rating.isUserCanEdit()));
 //        System.out.println("now trying r3");
 //        r3.forEach(rating -> System.out.println(rating.isUserCanEdit()));

@@ -5,6 +5,8 @@ import com.blah.crud.crudtest.persistence.entity.Property;
 import com.blah.crud.crudtest.persistence.entity.Rating;
 import com.blah.crud.crudtest.persistence.repository.PropertyRepository;
 import com.blah.crud.crudtest.persistence.repository.RatingRepository;
+import com.blah.crud.crudtest.services.HibernateSearchService;
+import com.blah.crud.crudtest.services.PropertySearchService;
 import com.blah.crud.crudtest.services.PropertyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,15 +19,9 @@ import org.springframework.security.acls.model.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,25 +34,29 @@ import java.util.Optional;
 public class PropertyController {
     @Autowired
     private PropertyServiceImpl propertyService;
-
+    @Autowired
     private PropertyRepository propertyRepository;
-
+    @Autowired
+    private PropertySearchService propertySearchService;
+    @Autowired
     private RatingRepository ratingRepository;
 
     //Idea: export RatingRepository, proprepos & jdbcmutable to 'propertyServiceImpl'
     //That way all the utilities & background stuff won't clutter the controller.
-
+    @Autowired
     private JdbcMutableAclService aclService;
 
-    public PropertyController(PropertyRepository propertyRepository,
+/*    public PropertyController(PropertyRepository propertyRepository,
                               RatingRepository ratingRepository,
                               JdbcMutableAclService aclService,
-                              PropertyServiceImpl propertyService) {
+                              PropertyServiceImpl propertyService,
+                              HibernateSearchService searchService) {
         this.propertyRepository = propertyRepository;
         this.ratingRepository = ratingRepository;
         this.aclService = aclService;
         this.propertyService = propertyService;
-    }
+        this.searchservice = searchService;
+    }*/
     //can a nested class have a rest controller?
 
     @Transactional
@@ -120,4 +120,37 @@ public class PropertyController {
 //        if (possibleDelete.isPresent()) {
 //            propertyRepository.delete(possibleDelete.get());
     }
+    @RequestMapping(value = "/search/{searchString}", method = RequestMethod.GET)
+    public List<Property> search(@PathVariable(value = "searchString") String q, Model model) {
+        List<Property> searchResults = null;
+        System.out.println("string " + q);
+        try {
+            searchResults = propertySearchService.search(q);
+
+        } catch (Exception ex) {
+            // here you should handle unexpected errors
+            // ...
+            // throw ex;
+            System.out.println("uh oh." + ex.toString());
+        }
+        model.addAttribute("search", searchResults);
+        return searchResults;
+
+    }
+    /*
+    @RequestMapping(value = "/search-em", method = RequestMethod.GET)
+    public String searchAlt(@RequestPart(value = "search") String q, Model model) {
+        List<Property> searchResults = null;
+        try {
+            searchResults = searchservice.fuzzySearch(q);
+
+        } catch (Exception ex) {
+            // here you should handle unexpected errors
+            // ...
+            // throw ex;
+        }
+        model.addAttribute("search", searchResults);
+        return "index";
+
+    }*/
 }

@@ -1,12 +1,15 @@
 package com.blah.crud.crudtest.persistence.entity;
 
 import lombok.Data;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 
 
 //@Table(name = "Property")
 @Entity
+@Indexed
 @Data
 @Table(name = "property", uniqueConstraints = {@UniqueConstraint(columnNames = {"propname"})})
 public class Property {
@@ -18,9 +21,10 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long propID;
     //IMPORTANT: name this column.
+    @Field
     @Column(name = "propname")
     private String propname;
-
+    @Field
     private String address;
 
     private String poolsize;
@@ -28,7 +32,7 @@ public class Property {
     private int price;
 
     private float avgrating;
-
+    @Field
     private String description;
 
     @Transient
@@ -43,6 +47,14 @@ public class Property {
         this.poolsize = poolsize;
         this.price = price;
         this.avgrating = avgrating;
+    }
+    public Property (String propname) {
+        this.propname = propname;
+        this.avgrating = 0;
+        this.price = 0;
+        this.poolsize = null;
+        this.address = null;
+        this.description = null;
     }
 
     /*public long getPropID() {
