@@ -108,6 +108,15 @@
                         <goals><goal>copy-dependencies</goal></goals>
                     </execution>
                 </executions>
+                                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>mysql</groupId>
+                                    <artifactId>mysql-connector-java</artifactId>
+                                    <destFileName>mysql.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+</configuration>
             </plugin>
 <!--for heroku-->
             <!-- <plugin>
