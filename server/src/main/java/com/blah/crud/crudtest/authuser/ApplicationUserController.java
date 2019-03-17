@@ -35,7 +35,6 @@ public class ApplicationUserController {
     @PostMapping("/sign-up")
     public void signUp(@RequestBody ApplicationUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setAuthorities("ROLE_HOST");
         applicationUserRepository.save(user);
     }
 
