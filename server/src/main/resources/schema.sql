@@ -11,8 +11,7 @@ CREATE TABLE IF NOT EXISTS rating (
   rating tinyint(1) NOT NULL,
   PRIMARY KEY (ratingid)
 );
-
---propid | address     | avgrating | description | poolsize    | price | propname  
+--propid | address     | avgrating | description | poolsize    | price | propname
 
 CREATE TABLE IF NOT EXISTS property (
   propid bigint(20) NOT NULL AUTO_INCREMENT,
