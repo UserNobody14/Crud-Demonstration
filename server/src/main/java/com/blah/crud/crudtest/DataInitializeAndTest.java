@@ -45,6 +45,18 @@ public class DataInitializeAndTest implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+        boolean addTests = true;
+        //run some test that establishes whether this db is already loaded w/ tests?
+        if (addTests) {
+            //addtests confirms that there is no way to get the existing user so...
+            runItems();
+        }
+        else {
+            System.out.println("allgood");
+        }
+    }
+
+    private void runItems() {
         //todo: try making a test of propertyServiceImpl, setting some of these guys as owners?
 
         //propertyRepository.findAll().forEach(System.out::println);
@@ -84,6 +96,7 @@ public class DataInitializeAndTest implements CommandLineRunner {
         ////////////////////////////////
         //Test the ability to pre-filter items by the current users ability to edit them.
         getRatings(authentication2);
+
     }
 
     public void insertOwnedObjects() {
