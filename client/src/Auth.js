@@ -68,8 +68,8 @@ class Auth {
   }
 
   static urlGet() {
-    return "http://localhost:8080";
-    //return "";
+    //return "http://localhost:8080";
+    return "https://" + window.location.host;
   }
 
   // static makeAuthenticatedPost(url, data) {
