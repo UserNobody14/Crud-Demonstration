@@ -10,6 +10,9 @@
 target
 .meghanada
 node_modules
+/server/indexpath
+/client/node
+/server/.mvn
 build
 src/main/resources/static/built
 
