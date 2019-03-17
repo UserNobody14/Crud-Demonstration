@@ -110,7 +110,7 @@
                 </executions>
             </plugin>
 <!--for heroku-->
-            <plugin>
+            <!-- <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>1.6</version>
@@ -144,13 +144,11 @@
                             <goal>webpack</goal>
                         </goals>
 						    <configuration>
-        							<!-- optional: if not specified, it will run webpack's default
-        							build (and you can remove this whole <configuration> section.) -->
-        						<arguments>--config webpack.prod.js</arguments>
+        						<arguments>-config webpack.prod.js</arguments>
     						</configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
              <!--end::frontend-maven-plugin[]-->
 
         </plugins>
