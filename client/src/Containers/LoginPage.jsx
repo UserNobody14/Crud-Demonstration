@@ -45,6 +45,10 @@ class LoginPage extends React.Component {
       password: ''},
     redirectToReferrer: false
   }
+  successCallback = () => {
+    let redirectToReferrer = true;
+    this.setState({ redirectToReferrer });
+  }
 
    login = (event) => {
      event.preventDefault();

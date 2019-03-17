@@ -3,14 +3,7 @@ package com.blah.crud.crudtest;
 import com.blah.crud.crudtest.persistence.entity.Rating;
 import com.blah.crud.crudtest.persistence.repository.RatingRepository;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +27,7 @@ public class RatingController {
         return ratingRepository.findAll();
     }
 
+    @CrossOrigin(origins = { "http://localhost:9000" }, allowCredentials = "true")
     @PutMapping("/{id}")
     public void editRating(@PathVariable long id, @RequestBody Rating rating) {
         Rating existingRating = ratingRepository.findById(id).get();

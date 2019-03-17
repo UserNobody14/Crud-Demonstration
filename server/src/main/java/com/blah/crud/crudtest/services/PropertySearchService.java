@@ -43,7 +43,7 @@ public class PropertySearchService {
         // a very basic query by keywords
         Query query =
                 queryBuilder
-                        .keyword().fuzzy().withEditDistanceUpTo(1).withPrefixLength(1)
+                        .keyword().fuzzy().withEditDistanceUpTo(2).withPrefixLength(1)
                         .onField("propname").andField("address").andField("description")
                         .matching(text)
                         .createQuery();

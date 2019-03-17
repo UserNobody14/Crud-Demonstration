@@ -14,7 +14,8 @@ import {
   FormGroup,
   Input,
   Badge,
-  Label
+  Label,
+  Col
 } from 'reactstrap';
 const axios = require('axios');
 import Auth from '../Auth';
@@ -56,39 +57,38 @@ class RatingDropdown extends Component {
       submission
     });
    }
-  //Definitely change location of the authorized request issuer.
+   handleEdit = (input, ratingID, event) => {
+     event.preventDefault();
+     this.handleSubmitGeneral({rating: input.rating, comment: input.comment, propID: this.props.backlink}, ratingID);
+   }
+  //Maybe make the server reply to 'post' requests with the updated view?.
+  //change 2 data: this.state.submission?
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log("gotten this far.")
-    console.log(this.props.backlink);
-    axios({
-      url: Auth.urlGet() + `/properties/${this.props.backlink}/ratings`,
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': Auth.getToken()
-      },
-      data: {
-        propID: this.props.backlink,
-        rating: Number(this.state.submission.rating),
-        comment: this.state.submission.comment
-      }
-    }).then(function(data) {
-      alert('A rating was submitted: ' + data.data);
-      console.log('request succeeded with JSON response', data.data);
-    }).catch(function(error) {
-      console.log('request failed', error)
-    })
-    this.handleGet();
+    this.handleSubmitGeneral({
+      propID: this.props.backlink,
+      rating: Number(this.state.submission.rating),
+      comment: this.state.submission.comment
+    });
+
+
   }
-   componentDidMount() {
-  //   const headers = Auth.authenticatedHeaders();
-  //   axios({
-  //     method: 'get',
-  //     url: Auth.urlGet() + '/properties/' + this.props.backlink + '/ratings',
-  //     headers: Auth.authenticatedHeaders()
-  //   }).then(response => this.setState({ratings: response.data}));
-  //   //.catch(() => this.setState({ratings: testData.data}));
+  handleSubmitGeneral = (input, ratingID=null) => {
+    const newrl = (ratingID != null) ? `/ratings/${ratingID}` : `/properties/${this.props.backlink}/ratings`;
+    let newMethod = (ratingID != null) ? 'put' : 'post'
+    axios({
+      url: Auth.urlGet() + newrl,
+      method: newMethod,
+      headers: Auth.authenticatedHeaders(),
+      data: {
+        propID: input.propID,
+        rating: input.rating,
+        comment: input.comment
+      }
+    })
+    .then(this.handleGet)
+    .then(data => console.log('request succeeded', data.data))
+    .catch(error => console.log('request failed', error))
   }
   handleGet = () => {
         const headers = Auth.authenticatedHeaders();
@@ -99,24 +99,27 @@ class RatingDropdown extends Component {
     }).then(response => this.setState({ratings: response.data}));
 
   }
-
-  toggle = () => {
-    if (!this.state.collapse) {this.handleGet()};
-    this.setState(state => ({
-      collapse: !state.collapse,
-      ratings: this.state.ratings
-    }));
+  toggle = (state) => {
+    if (!state.collapse) {this.handleGet()};
+    return {collapse: !state.collapse, ratings: state.ratings, submission: state.submission};
   }
 
   render() {
-    return (<div>
-      <Button block color="primary" onClick={this.toggle} style={{
-        marginBottom: '1rem'
-      }}>Ratings</Button>
-      <Collapse isOpen={this.state.collapse}>
-        <RatingList ratings={this.state.ratings} handleChange={this.handleChange} handleSubmit={this.handleSubmit} submission={this.state.submission}></RatingList>
-            </Collapse>
-          </div>);
+    return (
+      <Col>
+        <Button block color="primary" onClick={() => this.setState(this.toggle)} style={{
+          marginBottom: '1rem'
+        }}>Ratings</Button>
+        <Collapse isOpen={this.state.collapse}>
+          <RatingList
+            ratings={this.state.ratings}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+            submission={this.state.submission}
+            handleEdit={this.handleEdit}>
+          </RatingList>
+        </Collapse>
+      </Col>);
   }
 }
 const myF = link => Number(link.replace("http://localhost:8080/api/ratings/", ""));
@@ -125,7 +128,12 @@ const getRatingKey = ratingID => Auth.urlGet() + "/api/ratings/" + ratingID;
 class RatingList extends React.Component {
   render() {
     //add key back in later.
-    const ratings = this.props.ratings.map(rating => <Rating rating={rating} key={getRatingKey(rating.ratingID)}/>); //Replace these with a reactstrap version.?
+    const ratings = this.props.ratings.map(rating => {
+      if (rating.userCanEdit) {
+        return (<EditableRating rating={rating} backlink={rating.ratingID} key ={getRatingKey(rating.ratingID)} handleEdit={this.props.handleEdit}></EditableRating>);
+      }
+      else {return(<Rating rating={rating} key={getRatingKey(rating.ratingID)} />)}
+    }); //Replace these with a reactstrap version.?
     return (
       <div>
         <ListGroup>
@@ -156,15 +164,104 @@ class RatingList extends React.Component {
 
 class Rating extends React.Component {
   render() {
-    return (<ListGroupItem>
-      <ListGroupItemHeading>Rating: {this.props.rating.rating} out of 5</ListGroupItemHeading>
-      <ListGroupItemText>
-        <p>{this.props.rating.comment}</p>
-        <Badge>{this.props.rating.userCanEdit ? "Yours" : "Not yours"}</Badge>
-      </ListGroupItemText>
-    </ListGroupItem>);
+    return (
+      <ListGroupItem>
+        <ListGroupItemHeading>Rating: {this.props.rating.rating} out of 5 {this.props.rating.userCanEdit ? <Badge>Yours</Badge> : " " }</ListGroupItemHeading>
+        <ListGroupItemText>{this.props.rating.comment}</ListGroupItemText>
+      </ListGroupItem>);
   }
 }
+
+const privateHandleEdit = (input, ratingID, event) => {
+     event.preventDefault();
+     handleSubmitAltGeneral({rating: input.rating, comment: input.comment, propID: input.propID}, ratingID);
+   };
+
+const handleSubmitAltGeneral = (input, ratingID=null) => {
+    let newrl = `/ratings/${ratingID}`;
+    let newMethod = 'put';
+    axios({
+      url: Auth.urlGet() + newrl,
+      method: newMethod,
+      headers: Auth.authenticatedHeaders(),
+      data: {
+        propID: input.propID,
+        rating: input.rating,
+        comment: input.comment
+      }
+    }).then(data => console.log('request succeeded', data.data))
+    .catch(error => console.log('request failed', error))
+  };
+
+class EditableRating extends React.Component {
+  state = {
+    submission: {propID: this.props.backlink,
+    rating: this.props.rating.rating,
+    comment: this.props.rating.comment},
+    editing: false
+  }
+  toggle = () => {
+    this.setState({editing: !this.state.editing});
+  }
+   handleChange = (event) => {
+    const name = event.target.name;
+    const submission = this.state.submission;
+		submission[name] = event.target.value;
+    this.setState({ submission });
+   }
+  handleEditReturn = (event) => privateHandleEdit(this.state.submission, this.props.rating.ratingID, event);
+
+  render() {
+    return (
+      <ListGroupItem>
+        <ListGroupItemHeading>Rating: {this.props.rating.rating} out of 5 {this.props.rating.userCanEdit ? <Badge>Yours</Badge> : " " }</ListGroupItemHeading>
+        <ListGroupItemText>{this.props.rating.comment}
+          <Button block color="secondary" onClick={() => this.setState(this.toggle)} style={{
+            marginBottom: '1rem'
+          }}>Ratings</Button>
+          <Collapse isOpen={this.state.editing}>
+            <RatingForm
+              handleChange={this.handleChange}
+              handleSubmit={this.handleEditReturn}
+              comment={this.state.submission.comment}
+              handleEdit={this.handleEdit}
+              rating={this.state.submission.rating}>
+            </RatingForm>
+          </Collapse>
+        </ListGroupItemText>
+      </ListGroupItem>);
+}
+}
+
+class RatingForm extends React.Component {
+  render() {
+    //add key back in later.
+    //const ratings = this.props.ratings.map(rating => <Rating rating={rating} key={getRatingKey(rating.ratingID)}/>); //Replace these with a reactstrap version.?
+    return (
+      <div>
+        <Card>
+          <Form inline onSubmit={this.props.handleSubmit} onChange={this.props.handleChange}>
+            <FormGroup>
+              <Label for="exampleText">Text Area</Label>{' '}
+              <Input type="textarea" name="comment" id="exampleText2" defaultValue={this.props.comment}></Input>
+            </FormGroup>
+            <FormGroup>
+              <Label for="exampleSelect">Select</Label>{' '}
+              <Input type="select" name="rating" id="exampleSelect2">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </Input>
+            </FormGroup>
+            <Button>Submit</Button>
+          </Form>
+        </Card>
+      </div>)
+  }
+}
+
 
 /*
         <br />
