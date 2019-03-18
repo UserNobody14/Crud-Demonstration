@@ -84,6 +84,7 @@
     <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging-processor:2.1.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging-annotations:2.1.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.jdeparser:jdeparser:2.0.2.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.flywaydb:flyway-core:5.2.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-acl:5.1.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.1.4.RELEASE" level="project" />

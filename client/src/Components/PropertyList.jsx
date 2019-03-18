@@ -21,18 +21,19 @@ class PropertyList extends React.Component {
 		if (typeof property._links !== 'undefined') {
 			if (typeof property._links.self !== 'undefined'){
 			var realLink = property._links.self.href;
-		var backlink = Number(realLink.replace(Auth.urlGet() + '/api/properties/', ""));
-		var back2 = realLink.replace(Auth.urlGet() + '/api/properties/', "");
+		var backlink = Number(realLink.match(/\d+$/)[0]);
+		var back2 = realLink.match(/\d+$/)[0];
 		return [realLink, backlink, back2];
 	}
 		}
 		else if (typeof property.propID !== 'undefined') {
 			var backlink = property.propID;
-			var realLink = Auth.urlGet() + "/api/properties/" + backlink;
+			var realLink = Auth.fetchNewRL() + "/api/properties/" + backlink;
 			console.log(backlink);
 			console.log(realLink);
 			return [realLink, backlink];
 		}
+		return [null, null];
 	}
 	render() {
 		const properties = this.props.properties.map(property =>

@@ -69,6 +69,9 @@ class Auth {
 
   static urlGet() {
     //return "http://localhost:8080";
+    return "";
+  }
+  static fetchNewRL() {
     return "https://" + window.location.host;
   }
 

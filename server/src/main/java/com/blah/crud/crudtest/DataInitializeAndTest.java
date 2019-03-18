@@ -47,12 +47,14 @@ public class DataInitializeAndTest implements CommandLineRunner {
     public void run(String... strings) throws Exception {
         boolean addTests = true;
         //run some test that establishes whether this db is already loaded w/ tests?
-        if (addTests) {
+        addTests = userRepository.existsByUsername("barbara");
+        if (!addTests) {
             //addtests confirms that there is no way to get the existing user so...
             runItems();
         }
         else {
             System.out.println("allgood");
+            System.out.println(bCryptPasswordEncoder.encode("pass"));
         }
     }
 

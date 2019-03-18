@@ -1,19 +1,21 @@
 package com.blah.crud.crudtest;
 
+
 import com.blah.crud.crudtest.persistence.entity.Rating;
 import com.blah.crud.crudtest.persistence.repository.RatingRepository;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/ratings")
-public class RatingController {
+@RequestMapping("/prop-ratings/{propID}")
+public class PropertyRatingController {
 
     private RatingRepository ratingRepository;
 
-    public RatingController(RatingRepository ratingRepository) {
+    public PropertyRatingController (RatingRepository ratingRepository) {
         this.ratingRepository = ratingRepository;
     }
 
@@ -23,8 +25,9 @@ public class RatingController {
     }
 
     @GetMapping
-    public List<Rating> getRatings() {
-        return ratingRepository.findAll();
+    @ResponseBody
+    public List<Rating> getRatings(@PathVariable(name = "propID") Long propID) {
+        return ratingRepository.findBypropID(propID);
     }
 
     @CrossOrigin(origins = { "http://localhost:9000" }, allowCredentials = "true")

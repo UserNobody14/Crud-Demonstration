@@ -49,7 +49,7 @@ public class ApplicationUser implements UserDetails, Serializable {
   }
 
   @Override
-  public Collection<Authority> getAuthorities() {
+  public Collection<SimpleGrantedAuthority> getAuthorities() {
       ArrayList a = new ArrayList<SimpleGrantedAuthority>();
       a.add(new SimpleGrantedAuthority(this.authorityr));
       return a;

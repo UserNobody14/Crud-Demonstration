@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.blah.crud.crudtest.persistence.repository")
-@PropertySource("classpath:/application.properties")
+@PropertySource("classpath:com.blah.crud.crudtest.datasource.properties")
 @EntityScan(basePackages={ "com.blah.crud.crudtest.persistence.entity" })
 public class JPAPersistenceConfig {
 }

@@ -19,4 +19,6 @@ public interface ApplicationUserRepository extends JpaRepository<ApplicationUser
             "WHERE application_user.user_name = :username")*/
     //ApplicationUser findDistinctByUsername(String username);
     ApplicationUser findByUsername(String username);
+
+    boolean existsByUsername(String username);
 }

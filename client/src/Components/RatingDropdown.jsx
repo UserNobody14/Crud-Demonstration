@@ -123,7 +123,7 @@ class RatingDropdown extends Component {
   }
 }
 const myF = link => Number(link.replace("http://localhost:8080/api/ratings/", ""));
-const getRatingKey = ratingID => Auth.urlGet() + "/api/ratings/" + ratingID;
+const getRatingKey = ratingID => Auth.fetchNewRL() + "/api/ratings/" + ratingID;
 
 class RatingList extends React.Component {
   render() {
@@ -179,6 +179,7 @@ const privateHandleEdit = (input, ratingID, event) => {
 
 const handleSubmitAltGeneral = (input, ratingID=null) => {
     let newrl = `/ratings/${ratingID}`;
+    //maybe make it /api/ratings/${ratingID}
     let newMethod = 'put';
     axios({
       url: Auth.urlGet() + newrl,
