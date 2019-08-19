@@ -1,31 +1,21 @@
 package com.blah.crud.crudtest;
 
-import com.blah.crud.crudtest.persistence.entity.ApplicationUser;
 import com.blah.crud.crudtest.persistence.entity.Property;
 import com.blah.crud.crudtest.persistence.entity.Rating;
 import com.blah.crud.crudtest.persistence.repository.PropertyRepository;
 import com.blah.crud.crudtest.persistence.repository.RatingRepository;
-import com.blah.crud.crudtest.services.HibernateSearchService;
 import com.blah.crud.crudtest.services.PropertySearchService;
 import com.blah.crud.crudtest.services.PropertyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.access.prepost.PreFilter;
-import org.springframework.security.acls.domain.BasePermission;
-import org.springframework.security.acls.domain.ObjectIdentityImpl;
-import org.springframework.security.acls.domain.PrincipalSid;
 import org.springframework.security.acls.jdbc.JdbcMutableAclService;
-import org.springframework.security.acls.model.*;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 //TODO:
 
@@ -68,9 +58,16 @@ public class PropertyController {
 
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     public List<Property> getPropertys() {
         return propertyRepository.findAll();
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/{id}")
+    public Property getPropertySingular(@PathVariable Long id) {
+        return propertyRepository.findById(id).orElse(new Property(null, null, null, null, 0, 0));
     }
 
     //Posts a new rating on the property defined by 'id'

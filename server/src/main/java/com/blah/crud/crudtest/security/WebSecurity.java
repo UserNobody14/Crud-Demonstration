@@ -54,6 +54,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsService))
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //http.formLogin()
 
         //DISABLE THE FIVE ITEMS FOLLOWING IF ERRORS PERSIST!
         /*
@@ -84,6 +85,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.anonymous();
         */
     }
+
+    /*
+    *
+    * @Bean
+    * @Override
+    * public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }*/
 
 
     @Bean

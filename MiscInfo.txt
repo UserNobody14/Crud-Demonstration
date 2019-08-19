@@ -60,5 +60,6 @@ curl -H "Content-Type: application/json" -H "authorization: Bearer eyJ0eXAiOiJKV
 "comment": "buy",
 "rating": 5
 }'  http://localhost:8080/properties/526/ratings
-
+/////////////////////////////////////////////////
+https://hidden-wave-42594.herokuapp.com/
 
