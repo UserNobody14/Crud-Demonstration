@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/UserNobody14/Crud-Demonstration",
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "formik": "^1.5.1",
     "jquery": "^3.4.0",
